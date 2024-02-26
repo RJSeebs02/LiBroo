@@ -329,7 +329,7 @@ class BookDetailsPage extends StatelessWidget {
             SizedBox(height: 8),
             Image.asset(
               imagePath,
-              height: 400,
+              height: 350,
               width: double.infinity,
               fit: BoxFit.contain,
             ),
@@ -383,7 +383,7 @@ class BookDetailsPage extends StatelessWidget {
             
             SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.only(top: 38.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
