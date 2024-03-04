@@ -54,7 +54,7 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
             SizedBox(height: 20),
             Text(
-              'Payment Page',
+              'Book Details',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
