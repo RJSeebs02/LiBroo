@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart'; // Import Fluttertoast package
 
 class PaymentPage extends StatefulWidget {
   final String bookTitle;
@@ -125,7 +126,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         _selectedPaymentMethod = newValue!;
                       });
                     },
-                    items: <String>['Cash on Delivery', 'GCash', 'Maya']
+                    items: <String>['Cash on Delivery', 'GCash'] // Removed 'Maya'
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -144,8 +145,41 @@ class _PaymentPageState extends State<PaymentPage> {
                 height: 50, // Set height of the button
                 child: ElevatedButton(
                   onPressed: () {
-                    // Add payment processing logic here
-                    Navigator.pop(context); // Navigate back to the previous page after payment
+                    // Show confirmation dialog
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Confirm Payment"),
+                          content: Text("Are you sure you want to confirm payment?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // Add payment processing logic here
+                                Fluttertoast.showToast(
+                                  msg: "Checked out successfully",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Color.fromARGB(255, 255, 252, 242),
+                                  textColor: Colors.black,
+                                  fontSize: 16.0,
+                                  webPosition: "center",
+                                );
+                                Navigator.popUntil(context, ModalRoute.withName('/')); // Pop until reaching main.dart
+                              },
+                              child: Text("Confirm"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.blue, // Change button color
