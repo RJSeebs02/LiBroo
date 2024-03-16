@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'payment.dart';
+import 'rental.dart'; // Import the rental page
 
 class BookDetailsPage extends StatelessWidget {
   final String title;
@@ -66,7 +67,6 @@ class BookDetailsPage extends StatelessWidget {
                   ),
                 ); // Navigate to PaymentPage with book details
               },
-
               child: Text("Buy"),
             ),
             TextButton(
@@ -101,6 +101,17 @@ class BookDetailsPage extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RentalPage(
+                      bookTitle: title,
+                      rentPrice: rentPrice,
+                      userText: userText,
+                      imagePath: imagePath,
+                    ),
+                  ),
+                ); // Navigate to RentalPage with book details
               },
               child: Text("Rent"),
             ),
@@ -125,77 +136,80 @@ class BookDetailsPage extends StatelessWidget {
           style: TextStyle(color: Colors.white), // Text color set to white
         ),
         backgroundColor: Color.fromARGB(255, 57, 55, 66), // AppBar color set to grey
+        iconTheme: IconThemeData(color: Colors.white), // Change back arrow color to white
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 8),
-            Image.asset(
-              imagePath,
-              height: 350,
-              width: double.infinity,
-              fit: BoxFit.contain,
-            ),
-            SizedBox(height: 8),
-            Text(
-              price,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 8),
+              Image.network(
+                imagePath,
+                height: 350,
+                width: double.infinity,
+                fit: BoxFit.contain,
               ),
-            ),
-            SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30.0), // Add margin at the bottom
-              child: Text(
-                rentPrice,
+              SizedBox(height: 8),
+              Text(
+                price,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+              SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30.0), // Add margin at the bottom
+                child: Text(
+                  rentPrice,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              genreText,
-              style: TextStyle(
-                fontSize: 16,
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              userText,
-              style: TextStyle(
-                fontSize: 16,
+              SizedBox(height: 8),
+              Text(
+                genreText,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              locationText,
-              style: TextStyle(
-                fontSize: 16,
+              SizedBox(height: 8),
+              Text(
+                userText,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 8),
+              Text(
+                locationText,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_cart, color: Colors.white), // Change icon color to white
             label: 'Buy',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
+            icon: Icon(Icons.receipt, color: Colors.white), // Change icon color to white
             label: 'Rent',
           ),
         ],
@@ -221,6 +235,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
+      color: Color.fromARGB(255, 57, 55, 66), // Change bottom bar color to black
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: items.map((item) {
@@ -240,7 +255,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                         item.label!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Theme.of(context).disabledColor,
+                          color: Colors.white, // Change text color to white
                         ),
                       ),
                     ),

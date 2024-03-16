@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:libroo/carting.dart';
 import 'home.dart';
 import 'chat.dart';
+import 'carting.dart';
 import 'notification.dart';
 import 'profile.dart';
 
@@ -114,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           HomePage(),
           ChatPage(),
+          CartingPage(),
           NotificationPage(),
           ProfilePage(),
         ],
@@ -129,6 +132,10 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chat',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),

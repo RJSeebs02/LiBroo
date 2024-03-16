@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'chat_details.dart'; // Import the new chat details page
 
 class ChatPage extends StatelessWidget {
   @override
@@ -18,56 +19,104 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final List<String> _messages = [];
-
-  void _sendMessage(String message) {
-    setState(() {
-      _messages.insert(0, message);
-    });
-    _controller.clear();
-  }
+  final List<Map<String, dynamic>> _users = [
+    {
+      'name': 'Romeo Seva III',
+      'image': 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Romeo.jpg',
+      'lastMessage': 'Hi there!',
+      'time': '10:00 AM',
+      'date': 'Mar 15',
+      'status': 'Online',
+    },
+    {
+      'name': 'Russ Allen Garde',
+      'image': 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Russ.jpg',
+      'lastMessage': 'Hello!',
+      'time': '11:30 AM',
+      'date': 'Mar 15',
+      'status': 'Offline',
+    },
+    {
+      'name': 'Argian Nichole Cortez',
+      'image': 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Argian.jpg',
+      'lastMessage': 'Hey!',
+      'time': '1:45 PM',
+      'date': 'Mar 15',
+      'status': 'Online',
+    },
+    {
+      'name': 'Joshua Anton Magbanua',
+      'image': 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Anton.jpg',
+      'lastMessage': 'Hi again!',
+      'time': '3:00 PM',
+      'date': 'Mar 15',
+      'status': 'Offline',
+    },
+    {
+      'name': 'John Armor Espinosa',
+      'image': 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Armor.jpg',
+      'lastMessage': 'Good evening!',
+      'time': '5:20 PM',
+      'date': 'Mar 15',
+      'status': 'Online',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            reverse: true,
-            itemCount: _messages.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(_messages[index]),
-              );
-            },
+    return ListView.builder(
+      itemCount: _users.length,
+      itemBuilder: (context, index) {
+        final user = _users[index];
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(user['image']),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
+          title: Text(user['name']),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your message...',
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      user['lastMessage'],
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ),
-                ),
+                  SizedBox(width: 8),
+                  Text(
+                    '${user['time']} - ${user['date']}',
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
               ),
-              SizedBox(width: 8.0),
-              IconButton(
-                icon: Icon(Icons.send),
-                onPressed: () {
-                  if (_controller.text.isNotEmpty) {
-                    _sendMessage(_controller.text);
-                  }
-                },
+              SizedBox(height: 4),
+              Row(
+                children: [
+                  Icon(
+                    user['status'] == 'Online' ? Icons.circle : Icons.circle_outlined,
+                    color: user['status'] == 'Online' ? Colors.green : Colors.red,
+                    size: 12,
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    user['status'],
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
               ),
             ],
           ),
-        ),
-      ],
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChatDetailsPage(user: user)),
+            );
+          },
+        );
+      },
     );
   }
 }

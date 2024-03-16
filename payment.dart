@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart'; // Import Fluttertoast package
 
 class PaymentPage extends StatefulWidget {
   final String bookTitle;
@@ -35,6 +34,7 @@ class _PaymentPageState extends State<PaymentPage> {
         ),
         backgroundColor:
             Color.fromARGB(255, 57, 55, 66), // App bar background color set to grey
+              iconTheme: IconThemeData(color: Colors.white), // Change back arrow color to white
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,7 +68,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 // Left column for image
                 Expanded(
                   flex: 1,
-                  child: Image.asset(
+                  child: Image.network(
                     widget.imagePath,
                     height: 150,
                     width: 150,
@@ -155,26 +155,16 @@ class _PaymentPageState extends State<PaymentPage> {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                Navigator.popUntil(context, ModalRoute.withName('/')); // Pop until reaching main.dart
                               },
-                              child: Text("Cancel"),
+                              child: Text("Confirm"),
                             ),
                             TextButton(
                               onPressed: () {
                                 // Add payment processing logic here
-                                Fluttertoast.showToast(
-                                  msg: "Checked out successfully",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Color.fromARGB(255, 255, 252, 242),
-                                  textColor: Colors.black,
-                                  fontSize: 16.0,
-                                  webPosition: "center",
-                                );
-                                Navigator.popUntil(context, ModalRoute.withName('/')); // Pop until reaching main.dart
+                                Navigator.of(context).pop();
                               },
-                              child: Text("Confirm"),
+                              child: Text("Cancel"),
                             ),
                           ],
                         );
@@ -182,7 +172,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue, // Change button color
+                    primary: Color.fromARGB(255, 57, 55, 66), // Change button color
                   ),
                   child: Text(
                     'Confirm Payment',

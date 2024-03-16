@@ -42,7 +42,7 @@ class LoginPage extends StatelessWidget {
               },
               child: Text('Login'),
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 57, 55, 66), // Same color as main.dart
+                backgroundColor: Color.fromARGB(255, 57, 55, 66), // Same color as main.dart
               ),
             ),
           ],
