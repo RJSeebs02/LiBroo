@@ -34,7 +34,7 @@ class _PaymentPageState extends State<PaymentPage> {
         ),
         backgroundColor:
             Color.fromARGB(255, 57, 55, 66), // App bar background color set to grey
-              iconTheme: IconThemeData(color: Colors.white), // Change back arrow color to white
+        iconTheme: IconThemeData(color: Colors.white), // Change back arrow color to white
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -126,7 +126,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         _selectedPaymentMethod = newValue!;
                       });
                     },
-                    items: <String>['Cash on Delivery', 'GCash'] // Removed 'Maya'
+                    items: <String>[
+                      'Cash on Delivery',
+                      'GCash'
+                    ] // Removed 'Maya'
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -139,7 +142,8 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(top: 30.0), // Add margin above the button
+              padding: const EdgeInsets.only(
+                  top: 30.0), // Add margin above the button
               child: SizedBox(
                 width: double.infinity, // Button width occupies full screen width
                 height: 50, // Set height of the button
@@ -151,11 +155,13 @@ class _PaymentPageState extends State<PaymentPage> {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text("Confirm Payment"),
-                          content: Text("Are you sure you want to confirm payment?"),
+                          content: Text(
+                              "Are you sure you want to confirm payment?"),
                           actions: [
                             TextButton(
                               onPressed: () {
-                                Navigator.popUntil(context, ModalRoute.withName('/')); // Pop until reaching main.dart
+                                Navigator.popUntil(context,
+                                    ModalRoute.withName('/')); // Pop until reaching main.dart
                               },
                               child: Text("Confirm"),
                             ),
@@ -172,7 +178,8 @@ class _PaymentPageState extends State<PaymentPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 57, 55, 66), // Change button color
+                    backgroundColor:
+                        Color.fromARGB(255, 57, 55, 66), // Change button color
                   ),
                   child: Text(
                     'Confirm Payment',

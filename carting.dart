@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'checkout.dart';
 
 class CartingPage extends StatefulWidget {
   const CartingPage({Key? key}) : super(key: key);
@@ -8,6 +9,7 @@ class CartingPage extends StatefulWidget {
 }
 
 class _CartingPageState extends State<CartingPage> {
+  List<BookItem> _selectedItems = [];
   List<bool> _isSelected = [false, false];
   bool _isAllSelected = false;
 
@@ -15,7 +17,11 @@ class _CartingPageState extends State<CartingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carting'),
+        backgroundColor: Color(0xFF393742), // Match the color of the bottom navigation bar
+        title: Text(
+          'Carting', // Change the title text to "Carting"
+          style: TextStyle(color: Colors.white), // Make the title text color white
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,9 +142,7 @@ class _CartingPageState extends State<CartingPage> {
                 SizedBox(
                   width: 120, // Adjust the width as needed
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Add checkout functionality
-                    },
+                    onPressed: _checkout, // Call _checkout function here
                     child: Text('Check Out'),
                   ),
                 ),
@@ -151,37 +155,129 @@ class _CartingPageState extends State<CartingPage> {
   }
 
   void _showDeleteConfirmationDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("Confirm Delete"),
-        content: Text("Are you sure you want to delete the selected items from your cart?"),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () {
-              // Perform delete operation here
-              // For now, let's just clear the selection
-              setState(() {
-                _isSelected = List<bool>.filled(_isSelected.length, false);
-                _isAllSelected = false;
-              });
-              Navigator.of(context).pop();
-            },
-            child: Text("Delete"),
-          ),
-        ],
+    bool anyItemSelected = _isSelected.any((element) => element);
+    if (!anyItemSelected) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("No item selected"),
+            content: Text("Please select at least one item to proceed."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
       );
-    },
-  );
-}
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Confirm Delete"),
+            content: Text("Are you sure you want to delete the selected item/s from your cart?"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Perform delete operation here
+                  // For now, let's just clear the selection
+                  setState(() {
+                    _isSelected = List<bool>.filled(_isSelected.length, false);
+                    _isAllSelected = false;
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: Text("Delete"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
+  void _checkout() {
+    bool atLeastOneSelected = _isSelected.any((element) => element);
+    if (atLeastOneSelected) {
+      _selectedItems.clear();
+      for (int i = 0; i < _isSelected.length; i++) {
+        if (_isSelected[i]) {
+          _selectedItems.add(_buildBookItem(i));
+        }
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CheckoutPage(selectedItems: _selectedItems),
+        ),
+      );
+    } else {
+      // Show dialog box
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("No item selected"),
+            content: Text("Please select at least one item to proceed."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  BookItem _buildBookItem(int index) {
+    switch (index) {
+      case 0:
+        return BookItem(
+          title: 'Pinagyamang Pluma 9',
+          number: 1,
+          imagePath:
+              'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img1.png',
+          genreText: 'Genre: Academic',
+          userText: 'Posted by: Romeo Seva III',
+          locationText: 'Silay City',
+          price: 'Price: ₱350.00',
+          rentPrice: 'Rental Price: ₱50.00/week in 2 months',
+          isSelected: true,
+          onChanged: (_) {},
+        );
+      case 1:
+        return BookItem(
+          title: 'Kayamanan',
+          number: 2,
+          imagePath:
+              'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img2.jpg',
+          genreText: 'Genre: Academic',
+          userText: 'Posted by: Russ Allen Garde',
+          locationText: 'Bacolod City',
+          price: 'Price: ₱300.00',
+          rentPrice: 'Rental Price: ₱50.00/week in 2 months',
+          isSelected: true,
+          onChanged: (_) {},
+        );
+      default:
+        throw Exception("Invalid index: $index");
+    }
+  }
 
   String _calculateTotalCost() {
     double totalCost = 0;

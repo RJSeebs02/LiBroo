@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:libroo/carting.dart';
 import 'home.dart';
 import 'chat.dart';
 import 'carting.dart';
 import 'notification.dart';
 import 'profile.dart';
-
 
 void main() {
   runApp(const MainApp());
@@ -54,103 +52,90 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey, // Set the background color of the main page to grey
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 57, 55, 66), // Set the color of the AppBar to grey
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu, color: Colors.white), // Set the color of the burger button to white
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-        title: const Text(''),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 57, 55, 66),
-              ),
-              child: Text(
-                'LiBroo',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Settings'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-              },
-            ),
-            ListTile(
-              title: Text('Logout'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-              },
-            ),
-          ],
-        ),
-      ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color(0xFF393742), // Set the background color of the main page to grey
+    drawer: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: <Widget>[
-          HomePage(),
-          ChatPage(),
-          CartingPage(),
-          NotificationPage(),
-          ProfilePage(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromARGB(255, 57, 55, 66), // Set the color of the bottom navigation bar
-        type: BottomNavigationBarType.fixed, // Set type to fixed
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: const Color(0xFF393742),
+            ),
+            child: Text(
+              'LiBroo',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
+          ListTile(
+            title: Text('Settings'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+            },
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+          ListTile(
+            title: Text('Logout'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+            },
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Color.fromARGB(255, 255, 211, 175),
-        unselectedItemColor: Colors.white, // Set the color of the unselected icons to white
-        onTap: _onItemTapped,
       ),
-    );
-  }
+    ),
+    body: PageView(
+      controller: _pageController,
+      onPageChanged: (int index) {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      children: <Widget>[
+        HomePage(),
+        ChatPage(),
+        CartingPage(),
+        NotificationPage(),
+        ProfilePage(),
+      ],
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+      backgroundColor: const Color(0xFF393742), // Set the color of the bottom navigation bar
+      type: BottomNavigationBarType.fixed, // Set type to fixed
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat),
+          label: 'Chat',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_cart),
+          label: 'Cart',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.notifications),
+          label: 'Notifications',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: const Color(0xFFFFD3AF),
+      unselectedItemColor: Colors.white, // Set the color of the unselected icons to white
+      onTap: _onItemTapped,
+    ),
+  );
+}
+
 }

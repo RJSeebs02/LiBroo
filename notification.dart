@@ -7,7 +7,11 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        backgroundColor: Color(0xFF393742), // Match the color of the bottom navigation bar
+        title: Text(
+          'Notifications', // Change the title text to "Notifications"
+          style: TextStyle(color: Colors.white), // Make the title text color white
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),

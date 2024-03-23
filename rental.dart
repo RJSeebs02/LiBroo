@@ -135,7 +135,8 @@ class _RentalPageState extends State<RentalPage> {
                   _showRentalConfirmationDialog(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 57, 55, 66),
+                  backgroundColor:
+                      Color.fromARGB(255, 57, 55, 66), // Change button color
                 ),
                 child: Text(
                   'Confirm Rental',
@@ -163,7 +164,6 @@ class _RentalPageState extends State<RentalPage> {
             TextButton(
               onPressed: () {
                 Navigator.popUntil(context, ModalRoute.withName('/')); // Pop until reaching main.dart
-                
               },
               child: Text("Confirm"),
             ),

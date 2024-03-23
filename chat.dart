@@ -6,7 +6,11 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat'),
+        backgroundColor: Color(0xFF393742), // Match the color of the bottom navigation bar
+        title: Text(
+          'Chat', // Change the title text to "Chat"
+          style: TextStyle(color: Colors.white), // Make the title text color white
+        ),
       ),
       body: ChatScreen(),
     );

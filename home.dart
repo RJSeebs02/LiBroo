@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'book_details.dart';
-import 'payment.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +9,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF393742), // Match the color of the bottom navigation bar
+        title: Text(
+          'Libroo', // Change the title text to "Libroo"
+          style: TextStyle(color: Colors.white), // Make the title text color white
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,6 +49,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          Divider(),
           Expanded(
             child: ListView(
               children: [
@@ -56,6 +63,11 @@ class HomePage extends StatelessWidget {
                   price: 'Price: ₱350.00',
                   rentPrice: 'Rental Price: ₱50.00/week in 2 months',
                 ),
+
+                const SizedBox(height: 30),
+                const Divider(),
+                const SizedBox(height: 10),
+                
                 BookItem(
                   title: 'Kayamanan',
                   number: 2,
@@ -66,6 +78,11 @@ class HomePage extends StatelessWidget {
                   price: 'Price: ₱300.00',
                   rentPrice: 'Rental Price: ₱50.00/week in 2 months',
                 ),
+
+                const SizedBox(height: 30),
+                const Divider(),
+                const SizedBox(height: 10),
+
                 BookItem(
                   title: 'Everyday Life in World Literature 10',
                   number: 3,
@@ -76,6 +93,11 @@ class HomePage extends StatelessWidget {
                   price: 'Price: ₱350.00',
                   rentPrice: 'Rental Price: ₱50.00/week in 2 months',
                 ),
+
+                const SizedBox(height: 30),
+                const Divider(),
+                const SizedBox(height: 10),
+
                 BookItem(
                   title: 'Philippine Politics & Governance',
                   number: 4,
