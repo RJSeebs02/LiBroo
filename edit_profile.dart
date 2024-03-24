@@ -13,6 +13,7 @@ class _EditProfilePage extends State<EditProfilePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF393742),
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(
           'Edit Profile',
           style: TextStyle(color: Colors.white),

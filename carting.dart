@@ -39,7 +39,7 @@ class _CartingPageState extends State<CartingPage> {
                     child: TextField(
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
-                        hintText: 'Search Books',
+                        hintText: 'Search Carting',
                         hintStyle: TextStyle(color: Colors.black),
                         prefixIcon: Icon(Icons.search, color: Colors.black),
                         border: InputBorder.none,
@@ -99,7 +99,7 @@ class _CartingPageState extends State<CartingPage> {
             ),
           ),
           Container(
-            color: Colors.grey[300],
+            color: Color.fromARGB(255, 57, 55, 66),
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,19 +114,25 @@ class _CartingPageState extends State<CartingPage> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: _isAllSelected,
-                        onChanged: (_) {
-                          setState(() {
-                            _isAllSelected = !_isAllSelected;
-                            _isSelected = List.filled(_isSelected.length, _isAllSelected);
-                          });
-                        },
-                      ),
+  value: _isAllSelected,
+  onChanged: (_) {
+    setState(() {
+      _isAllSelected = !_isAllSelected;
+      _isSelected = List.filled(_isSelected.length, _isAllSelected);
+    });
+  },
+  checkColor: Color(0xFF393742), // Change the color of the checkmark
+  activeColor: Color(0xFFFFD3AF), // Change the color of the checkbox when selected
+  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // Removes extra padding
+  side: BorderSide(color: _isAllSelected ? Colors.white : Colors.grey), // Specify the border color
+),
+
                       Text(
                         'All',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -137,13 +143,15 @@ class _CartingPageState extends State<CartingPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
                   width: 120, // Adjust the width as needed
                   child: ElevatedButton(
                     onPressed: _checkout, // Call _checkout function here
-                    child: Text('Check Out'),
+                    child: Text('Check Out',
+                    style: TextStyle(color: Color.fromARGB(255, 57, 55, 66)),),
                   ),
                 ),
               ],
@@ -355,6 +363,8 @@ class BookItem extends StatelessWidget {
                   child: Checkbox(
                     value: isSelected,
                     onChanged: onChanged,
+                    activeColor: Color(0xFF393742), // Change the color of the checkmark
+                    checkColor: Color(0xFFFFD3AF),
                   ),
                 ),
               ),

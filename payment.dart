@@ -160,6 +160,13 @@ class _PaymentPageState extends State<PaymentPage> {
                           actions: [
                             TextButton(
                               onPressed: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Center(child: Text('Purchase Made')),
+                                    duration: Duration(seconds: 2),
+                                    backgroundColor: Color.fromARGB(255, 57, 55, 66),
+                                  ),
+                                );
                                 Navigator.popUntil(context,
                                     ModalRoute.withName('/')); // Pop until reaching main.dart
                               },

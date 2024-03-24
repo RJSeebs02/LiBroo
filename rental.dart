@@ -18,7 +18,7 @@ class RentalPage extends StatefulWidget {
 }
 
 class _RentalPageState extends State<RentalPage> {
-  String _selectedPaymentMethod = 'Cash on Delivery';
+  String _selectedPaymentMethod = 'Cash';
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class _RentalPageState extends State<RentalPage> {
                         _selectedPaymentMethod = newValue!;
                       });
                     },
-                    items: <String>['Cash on Delivery', 'GCash']
+                    items: <String>['Cash', 'GCash']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -163,7 +163,15 @@ class _RentalPageState extends State<RentalPage> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/')); // Pop until reaching main.dart
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                  content: Center(child: Text('Rental Made')),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                );
+                Navigator.popUntil(context, ModalRoute.withName('/')
+                ); // Pop until reaching main.dart
               },
               child: Text("Confirm"),
             ),

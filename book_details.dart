@@ -32,6 +32,14 @@ class BookDetailsPage extends StatelessWidget {
     } else if (_selectedIndex == 1) {
       // Rent option selected
       _showRentDialog(context);
+    } else if (_selectedIndex == 2) {
+      ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor:Color.fromARGB(255, 57, 55, 66),
+        content: Center(child: Text('Added to cart')),
+        duration: Duration(seconds: 2),
+      ),
+    );
     }
   }
 
@@ -203,6 +211,7 @@ class BookDetailsPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
+        color: Color.fromARGB(255, 57, 55, 66),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart, color: Colors.white), // Change icon color to white
@@ -211,6 +220,10 @@ class BookDetailsPage extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt, color: Colors.white), // Change icon color to white
             label: 'Rent',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_shopping_cart, color: Colors.white), // Change icon color to white
+            label: 'Add to Cart',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -224,12 +237,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final List<BottomNavigationBarItem> items;
   final int currentIndex;
   final ValueChanged<int>? onTap;
+  final Color color;
 
   const CustomBottomNavigationBar({
     Key? key,
     required this.items,
     required this.currentIndex,
     this.onTap,
+    required this.color,
   }) : super(key: key);
 
   @override

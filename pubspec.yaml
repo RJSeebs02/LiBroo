@@ -4,22 +4,17 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: '>=3.3.1 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  fluttertoast: ^8.0.8
+  image_picker: ^0.8.4+2 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/img1.png
-    - assets/img2.jpg
-    - assets/img3.jpg
-    - assets/img4.jpg
