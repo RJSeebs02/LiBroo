@@ -72,7 +72,7 @@ class _EditProfilePage extends State<EditProfilePage> {
                             width: 4,
                             color: Colors.white,
                           ),
-                          color: Colors.green,
+                          color: Color(0xFF393742),
                         ),
                         child: Icon(Icons.edit, color: Colors.white),
                       ),
@@ -115,7 +115,7 @@ class _EditProfilePage extends State<EditProfilePage> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(160, 40),
-                      backgroundColor: Colors.green,
+                      backgroundColor: Color(0xFF393742),
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
