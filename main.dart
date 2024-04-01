@@ -106,6 +106,8 @@ Widget build(BuildContext context) {
       ],
     ),
     bottomNavigationBar: BottomNavigationBar(
+      showSelectedLabels: true,
+      showUnselectedLabels: false,
       backgroundColor: const Color(0xFF393742), // Set the color of the bottom navigation bar
       type: BottomNavigationBarType.fixed, // Set type to fixed
       items: const <BottomNavigationBarItem>[
@@ -123,7 +125,7 @@ Widget build(BuildContext context) {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
-          label: 'Notifications',
+          label: 'Notifs',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),

@@ -187,7 +187,7 @@ class BookDetailsPage extends StatelessWidget {
                     fontSize: 14,
                     color: Color.fromARGB(255, 57, 55, 66),
                   ),
-                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'book_details.dart';
+import 'view_book.dart';
 import 'add_book.dart';
 
 class MyStorePage extends StatefulWidget {
@@ -154,7 +154,7 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
         tabs: [
           Tab(icon: Icon(Icons.book), text: 'Items'),
           Tab(icon: Icon(Icons.hourglass_bottom), text: 'Pending'),
-          Tab(icon: Icon(Icons.hourglass_bottom), text: 'In Process'),
+          Tab(icon: Icon(Icons.directions_run), text: 'In Process'),
           Tab(icon: Icon(Icons.history), text: 'History'),
           Tab(icon: Icon(Icons.store), text: 'About'),
         ],
@@ -179,7 +179,7 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
           rentPrice: '80.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'Jinwoo intends to act the weakling he was before, but when their party is joined by a group of criminals and their association minder, Jinwoo may have no choice but to push his newly acquired skills to the limit if he and his friends want to get out alive!',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
         ),
@@ -199,7 +199,7 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
           rentPrice: '120.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'Socially anxious high school student Shoko Komi\'s greatest dream is to make some friends, but everyone at school mistakes her crippling social anxiety for cool reserve. Luckily she meets Tadano, a timid wallflower who decides to step out of his comfort zone in order to help her achieve her goal of making 100 friends.',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
         ),
@@ -216,10 +216,10 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
           userText: 'Elijah Faeldonea',
           locationText: 'Bacolod City',
           price: '300.00',
-          rentPrice: '50.00/week in 2 months',
+          rentPrice: '50.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'A big villain attack is coming, and the heroes must do all they can to prepare. As part of these preparations, Eraser Head and Present Mic pay a visit to Tartarus prison, while Midoriya, Bakugo and Todoroki begin training under Endeavor in order to become fighters who can stand on their own.',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
         ),
@@ -253,7 +253,7 @@ Widget buildPendingContent() {
           rentPrice: '120.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'Socially anxious high school student Shoko Komi\'s greatest dream is to make some friends, but everyone at school mistakes her crippling social anxiety for cool reserve. Luckily she meets Tadano, a timid wallflower who decides to step out of his comfort zone in order to help her achieve her goal of making 100 friends.',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
           
@@ -282,7 +282,7 @@ Widget buildPendingContent() {
           rentPrice: '80.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'Jinwoo intends to act the weakling he was before, but when their party is joined by a group of criminals and their association minder, Jinwoo may have no choice but to push his newly acquired skills to the limit if he and his friends want to get out alive!',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
         ),
@@ -310,7 +310,7 @@ Widget buildPendingContent() {
           rentPrice: '50.00/week in 2 months',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'A big villain attack is coming, and the heroes must do all they can to prepare. As part of these preparations, Eraser Head and Present Mic pay a visit to Tartarus prison, while Midoriya, Bakugo and Todoroki begin training under Endeavor in order to become fighters who can stand on their own.',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
         ),
@@ -345,7 +345,7 @@ Widget buildProcessContent() {
           rentPrice: '120.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'Socially anxious high school student Shoko Komi\'s greatest dream is to make some friends, but everyone at school mistakes her crippling social anxiety for cool reserve. Luckily she meets Tadano, a timid wallflower who decides to step out of his comfort zone in order to help her achieve her goal of making 100 friends.',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
           
@@ -374,7 +374,7 @@ Widget buildProcessContent() {
           rentPrice: '50.00/week in 2 months',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'A big villain attack is coming, and the heroes must do all they can to prepare. As part of these preparations, Eraser Head and Present Mic pay a visit to Tartarus prison, while Midoriya, Bakugo and Todoroki begin training under Endeavor in order to become fighters who can stand on their own.',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
           
@@ -403,7 +403,7 @@ Widget buildProcessContent() {
           rentPrice: '80.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
-          description: '',
+          description: 'Jinwoo intends to act the weakling he was before, but when their party is joined by a group of criminals and their association minder, Jinwoo may have no choice but to push his newly acquired skills to the limit if he and his friends want to get out alive!',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
         ),
@@ -679,7 +679,7 @@ class BookItem extends StatelessWidget {
           // Navigate to the book details page and pass the book details
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BookDetailsPage(
+            MaterialPageRoute(builder: (context) => EditBookPage(
               title: title,
               genreText: genreText,
               userText: userText,
@@ -996,12 +996,24 @@ class PendingItem extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 0),
-                        child: Text(
-                          'Status: ' + status,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 57, 55, 66),
-                            fontSize: 14,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Status: ',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 55, 66),
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              status,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 252, 117, 117),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 10),
@@ -1270,12 +1282,24 @@ class ProcessItem extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 0),
-                        child: Text(
-                          'Status: ' + status,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 57, 55, 66),
-                            fontSize: 14,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Status: ',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 55, 66),
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              status,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 252, 117, 117),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 10),
@@ -1521,12 +1545,24 @@ class HistoryItem extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 0),
-                        child: Text(
-                          'Status: ' + status,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 57, 55, 66),
-                            fontSize: 14,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Status: ',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 55, 66),
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              status,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 150, 255, 154),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 10),

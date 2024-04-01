@@ -177,13 +177,32 @@ class _CartingPageState extends State<CartingPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("No item selected"),
-            content: Text("Please select at least one item to proceed."),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Divider(),
+                Text(
+                  "Please select at least one item to remove.",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                ),
+              ],
+            ),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("OK"),
+                child: Text(
+                  "OK",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                ),
               ),
             ],
           );
@@ -195,13 +214,32 @@ class _CartingPageState extends State<CartingPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Confirm Delete"),
-            content: Text("Are you sure you want to delete the selected item/s from your cart?"),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Divider(),
+                Text(
+                  "Are you sure you want to delete the selected item/s from your cart?",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                ),
+              ],
+            ),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("Cancel"),
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -213,7 +251,13 @@ class _CartingPageState extends State<CartingPage> {
                   });
                   Navigator.of(context).pop();
                 },
-                child: Text("Delete"),
+                child: Text(
+                  "Delete",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                ),
               ),
             ],
           );
@@ -244,13 +288,32 @@ class _CartingPageState extends State<CartingPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("No item selected"),
-            content: Text("Please select at least one item to proceed."),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Divider(),
+                Text(
+                  "Please select at least one item to checkout.",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                ),
+              ],
+            ),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("OK"),
+                child: Text(
+                  "OK",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 57, 55, 66),
+                  ),
+                ),
               ),
             ],
           );
@@ -270,7 +333,7 @@ class _CartingPageState extends State<CartingPage> {
           genreText: 'Genre: Academic',
           userText: 'Posted by: Romeo Seva III',
           locationText: 'Silay City',
-          price: 'Price: ₱350.00',
+          price: '350.00',
           rentPrice: 'Rental Price: ₱50.00/week in 2 months',
           quantity: '1',
           process: 'To Buy',
@@ -286,7 +349,7 @@ class _CartingPageState extends State<CartingPage> {
           genreText: 'Genre: Academic',
           userText: 'Posted by: Russ Allen Garde',
           locationText: 'Bacolod City',
-          price: 'Price: ₱300.00',
+          price: '300.00',
           rentPrice: 'Rental Price: ₱50.00/week in 2 months',
           quantity: '1',
           process: 'To Buy',
@@ -405,7 +468,7 @@ class BookItem extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 0),
                             child: Text(
-                              'Price: ' + price,
+                              'Price: ₱' + price,
                               style: TextStyle(
                                 color: Color.fromARGB(255, 57, 55, 66),
                                 fontSize: 14,

@@ -101,10 +101,6 @@ class _AddProductPageState extends State<AddProductPage> {
                     value: 'Thriller',
                     child: Text('Thriller'),
                   ),
-                  DropdownMenuItem(
-                    value: 'Science Fiction',
-                    child: Text('Science Fiction'),
-                  ),
                 ],
                 onChanged: (value) {
                   // Handle dropdown value change
@@ -125,7 +121,118 @@ class _AddProductPageState extends State<AddProductPage> {
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 16.0),
-        
+
+              // 6th row: Condition dropdown
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Rent per'),
+                items: [
+                  DropdownMenuItem(
+                    value: 'Week',
+                    child: Text('Week'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Month',
+                    child: Text('Month'),
+                  ),
+                ],
+                onChanged: (value) {
+                  // Handle dropdown value change
+                },
+              ),
+              SizedBox(height: 16.0),
+
+              // 6th row: Condition dropdown
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Rent Total Duration'),
+                items: [
+                  DropdownMenuItem(
+                    value: '1 Month',
+                    child: Text('1 Month'),
+                  ),
+                  DropdownMenuItem(
+                    value: '2 Months',
+                    child: Text('2 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '3 Months',
+                    child: Text('3 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '4 Months',
+                    child: Text('4 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '5 Months',
+                    child: Text('5 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '6 Months',
+                    child: Text('6 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '7 Months',
+                    child: Text('7 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '8 Months',
+                    child: Text('8 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '9 Months',
+                    child: Text('9 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '10 Months',
+                    child: Text('10 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '11 Months',
+                    child: Text('11 Months'),
+                  ),
+                  DropdownMenuItem(
+                    value: '1 Year',
+                    child: Text('1 Year'),
+                  ),
+                ],
+                onChanged: (value) {
+                  // Handle dropdown value change
+                },
+              ),
+              SizedBox(height: 16.0),
+
+              // 5th row: Description input
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Book Description'),
+              ),
+              SizedBox(height: 16.0),
+
+              // 6th row: Condition dropdown
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Condition'),
+                items: [
+                  DropdownMenuItem(
+                    value: 'New',
+                    child: Text('New'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Slightly Used',
+                    child: Text('Slightly Used'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Used',
+                    child: Text('Used'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Damaged',
+                    child: Text('Damaged'),
+                  ),
+                ],
+                onChanged: (value) {
+                  // Handle dropdown value change
+                },
+              ),
+              SizedBox(height: 16.0),
+
               // Add a button to submit the form or any additional actions
               ElevatedButton(
   onPressed: () {
