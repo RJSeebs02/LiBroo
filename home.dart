@@ -193,12 +193,6 @@ class HomePage extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
-              ListTile(
-                title: Text('Science Fiction'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
               SizedBox(
                 height: 70,
               )

@@ -19,7 +19,7 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(_handleTabSelection); // Add listener for tab changes
 
   }
@@ -55,6 +55,7 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
               children: [
                 buildItemsContent(),
                 buildPendingContent(),
+                buildProcessContent(),
                 buildHistoryContent(),
                 buildAboutContent(),
               ],
@@ -144,6 +145,8 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
     return Container(
       color:Color(0xFF393742),
       child: TabBar(
+        tabAlignment: TabAlignment.start,
+        isScrollable: true,
         controller: _tabController,
         indicatorColor: Color(0xFFFFD3AF),
         unselectedLabelColor: Colors.white,
@@ -151,6 +154,7 @@ class _MyStorePageState extends State<MyStorePage> with TickerProviderStateMixin
         tabs: [
           Tab(icon: Icon(Icons.book), text: 'Items'),
           Tab(icon: Icon(Icons.hourglass_bottom), text: 'Pending'),
+          Tab(icon: Icon(Icons.hourglass_bottom), text: 'In Process'),
           Tab(icon: Icon(Icons.history), text: 'History'),
           Tab(icon: Icon(Icons.store), text: 'About'),
         ],
@@ -231,6 +235,35 @@ Widget buildPendingContent() {
       const SizedBox(height: 10),
       Container( // Set the height of the container
         child: PendingItem(
+          title: 'Komi Can\'t Communicate Vol. 26',
+          number: 2,
+          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga2.jpg',
+          genreText: 'Manga',
+          userText: 'Elijah Faeldonea',
+          locationText: 'Bacolod City',
+          buyerText: 'Joshua Anton Magbanua',
+          buyerlocationText: 'Kabankalan City',
+          checkoutDate: '1/2/2024',
+          checkoutTime: '14:32',
+          process: 'To Buy',
+          paymentMode: 'Cash',
+          status: 'Pending',
+          quantity: 1,
+          price: '850.00',
+          rentPrice: '120.00',
+          rentDue: 'week',
+          rentTotalDue: '2 months',
+          description: '',
+          userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
+          condition: 'New',
+          
+        ),
+      ),
+      const SizedBox(height: 30),
+      const Divider(),
+      const SizedBox(height: 10),
+      Container( // Set the height of the container
+        child: PendingItem(
           title: 'Solo Leveling Vol. 3',
           number: 1,
           imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga1.jpg',
@@ -239,7 +272,7 @@ Widget buildPendingContent() {
           locationText: 'Bacolod City',
           buyerText: 'Erjun Quilisadio',
           buyerlocationText: 'Bacolod City',
-          checkoutDate: 'January 24, 2024',
+          checkoutDate: '1/24/2024',
           checkoutTime: '11:07',
           process: 'To Buy',
           paymentMode: 'Cash',
@@ -254,68 +287,6 @@ Widget buildPendingContent() {
           condition: 'New',
         ),
       ),
-      Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Accept'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Reject'),
-                ),
-              ],
-            ),
-      const SizedBox(height: 30),
-      const Divider(),
-      const SizedBox(height: 10),
-      Container( // Set the height of the container
-        child: PendingItem(
-          title: 'Komi Can\'t Communicate Vol. 26',
-          number: 2,
-          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga2.jpg',
-          genreText: 'Manga',
-          userText: 'Elijah Faeldonea',
-          locationText: 'Bacolod City',
-          buyerText: 'Joshua Anton Magbanua',
-          buyerlocationText: 'Kabankalan City',
-          checkoutDate: 'February 2, 2024',
-          checkoutTime: '14:32',
-          process: 'To Buy',
-          paymentMode: 'Cash',
-          status: 'Pending',
-          quantity: 1,
-          price: '850.00',
-          rentPrice: '120.00',
-          rentDue: 'week',
-          rentTotalDue: '2 months',
-          description: '',
-          userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
-          condition: 'New',
-        ),
-      ),
-      Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Accept'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Reject'),
-                ),
-              ],
-            ),
       const SizedBox(height: 30),
       const Divider(),
       const SizedBox(height: 10),
@@ -329,7 +300,7 @@ Widget buildPendingContent() {
           locationText: 'Bacolod City',
           buyerText: 'John Armor Espinosa',
           buyerlocationText: 'Silay City',
-          checkoutDate: 'February 12, 2024',
+          checkoutDate: '2/12/2024',
           checkoutTime: '08:45',
           process: 'To Buy',
           paymentMode: 'Cash',
@@ -344,29 +315,103 @@ Widget buildPendingContent() {
           condition: 'New',
         ),
       ),
-      Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Accept'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Reject'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
+      const SizedBox(height: 30),
     ],
   );
 }
 
-
+Widget buildProcessContent() {
+  return ListView(
+    shrinkWrap: true,
+    children: [
+      const SizedBox(height: 10),
+      Container( // Set the height of the container
+        child: ProcessItem(
+          title: 'Komi Can\'t Communicate Vol. 26',
+          number: 2,
+          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga2.jpg',
+          genreText: 'Manga',
+          userText: 'Elijah Faeldonea',
+          locationText: 'Bacolod City',
+          buyerText: 'Joshua Anton Magbanua',
+          buyerlocationText: 'Kabankalan City',
+          checkoutDate: '2/5/2024',
+          checkoutTime: '16:37',
+          process: 'Buy',
+          paymentMode: 'Cash',
+          status: 'In Process',
+          quantity: 1,
+          price: '850.00',
+          rentPrice: '120.00',
+          rentDue: 'week',
+          rentTotalDue: '2 months',
+          description: '',
+          userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
+          condition: 'New',
+          
+        ),
+      ),
+      const SizedBox(height: 30),
+      const Divider(),
+      const SizedBox(height: 10),
+      Container( // Set the height of the container
+        child: ProcessItem(
+          title: 'My Hero Academia, Vol. 26',
+          number: 3,
+          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga3.jpg',
+          genreText: 'Manga',
+          userText: 'Elijah Faeldonea',
+          locationText: 'Bacolod City',
+          buyerText: 'John Armor Espinosa',
+          buyerlocationText: 'Silay City',
+          checkoutDate: '2/12/2024',
+          checkoutTime: '09:35',
+          process: 'Buy',
+          paymentMode: 'Cash',
+          status: 'In Process',
+          quantity: 1,
+          price: '300.00',
+          rentPrice: '50.00/week in 2 months',
+          rentDue: 'week',
+          rentTotalDue: '2 months',
+          description: '',
+          userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
+          condition: 'New',
+          
+        ),
+      ),
+      const SizedBox(height: 30),
+      const Divider(),
+      const SizedBox(height: 10),
+      Container( // Set the height of the container
+        child: ProcessItem(
+          title: 'Solo Leveling Vol. 3',
+          number: 1,
+          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga1.jpg',
+          genreText: 'Manga',
+          userText: 'Elijah Faeldonea',
+          locationText: 'Bacolod City',
+          buyerText: 'Erjun Quilisadio',
+          buyerlocationText: 'Bacolod City',
+          checkoutDate: '1/25/2024',
+          checkoutTime: '11:35',
+          process: 'Buy',
+          paymentMode: 'Cash',
+          status: 'In Process',
+          quantity: 1,
+          price: '580.00',
+          rentPrice: '80.00',
+          rentDue: 'week',
+          rentTotalDue: '2 months',
+          description: '',
+          userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
+          condition: 'New',
+        ),
+      ),
+      const SizedBox(height: 30),
+    ],
+  );
+}
 
 
   Widget buildHistoryContent() {
@@ -376,19 +421,28 @@ Widget buildPendingContent() {
       const SizedBox(height: 10),
       Container( // Set the height of the container
         child: HistoryItem(
-          title: 'Solo Leveling Vol. 3',
-          number: 1,
-          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga1.jpg',
+          title: 'My Hero Academia, Vol. 26',
+          number: 3,
+          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga3.jpg',
           genreText: 'Manga',
           userText: 'Elijah Faeldonea',
           locationText: 'Bacolod City',
-          price: '580.00',
-          rentPrice: '80.00',
+          buyerText: 'John Armor Espinosa',
+          buyerlocationText: 'Silay City',
+          checkoutDate: '2/12/2024',
+          checkoutTime: '09:35',
+          process: 'Buy',
+          paymentMode: 'Cash',
+          status: 'Completed',
+          quantity: 1,
+          price: '300.00',
+          rentPrice: '50.00/week in 2 months',
           rentDue: 'week',
           rentTotalDue: '2 months',
           description: '',
           userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg',
           condition: 'New',
+          
         ),
       ),
       const SizedBox(height: 30),
@@ -402,6 +456,14 @@ Widget buildPendingContent() {
           genreText: 'Manga',
           userText: 'Elijah Faeldonea',
           locationText: 'Bacolod City',
+          buyerText: 'Joshua Anton Magbanua',
+          buyerlocationText: 'Kabankalan City',
+          checkoutDate: '2/5/2024',
+          checkoutTime: '16:37',
+          process: 'Buy',
+          paymentMode: 'Cash',
+          status: 'Completed',
+          quantity: 1,
           price: '850.00',
           rentPrice: '120.00',
           rentDue: 'week',
@@ -416,14 +478,22 @@ Widget buildPendingContent() {
       const SizedBox(height: 10),
       Container( // Set the height of the container
         child: HistoryItem(
-          title: 'My Hero Academia, Vol. 26',
-          number: 3,
-          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga3.jpg',
+          title: 'Solo Leveling Vol. 3',
+          number: 1,
+          imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Manga1.jpg',
           genreText: 'Manga',
           userText: 'Elijah Faeldonea',
           locationText: 'Bacolod City',
-          price: '300.00',
-          rentPrice: '50.00/week in 2 months',
+          buyerText: 'Erjun Quilisadio',
+          buyerlocationText: 'Bacolod City',
+          checkoutDate: '1/25/2024',
+          checkoutTime: '11:35',
+          process: 'Buy',
+          paymentMode: 'Cash',
+          status: 'Completed',
+          quantity: 1,
+          price: '580.00',
+          rentPrice: '80.00',
           rentDue: 'week',
           rentTotalDue: '2 months',
           description: '',
@@ -431,6 +501,7 @@ Widget buildPendingContent() {
           condition: 'New',
         ),
       ),
+      const SizedBox(height: 30),
     ],
   );
 }
@@ -841,218 +912,474 @@ class PendingItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: GestureDetector(
-        onTap: () {
-          // Navigate to the book details page and pass the book details
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => BookDetailsPage(
-              title: title,
-              genreText: genreText,
-              userText: userText,
-              locationText: locationText,
-              price: price,
-              rentPrice: rentPrice,
-              imagePath: imagePath,
-              rentDue: rentDue,
-              rentTotalDue: rentTotalDue,
-              description: description,
-              userImage: userImage,
-              condition: condition, // Pass the image path
-            )),
-          );
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
-                child: Expanded(
-                  child: Image.network( // Change from Image.asset to Image.network
-                    imagePath,
-                    height: 250,
-                    width: 140,
-                    fit: BoxFit.cover,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(0),
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
+                  child: Expanded(
+                    child: Image.network( // Change from Image.asset to Image.network
+                      imagePath,
+                      height: 250,
+                      width: 140,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 57, 55, 66),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        buyerText,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
                         style: TextStyle(
                           color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            size: 20,
-                            color: Color.fromARGB(255, 57, 55, 66)
-                          ),
-                          Text(
-                            buyerlocationText,
-                            style: TextStyle(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          buyerText,
+                          style: TextStyle(
                             color: Color.fromARGB(255, 57, 55, 66),
                             fontSize: 14,
                           ),
                         ),
-                        ]
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: Text(
-                        'Price: ' + price,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        'Quantity: ' + quantity.toString(),
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: Text(
-                        'Status: ' + status,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: Text(
-                        'Date: ' + checkoutDate,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: Text(
-                        'Time: ' + checkoutTime,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 25),
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
                           children: [
-                            SizedBox(
-                              width: 90,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.shopping_cart,
-                                        size: 17,
-                                        color: Color.fromARGB(255, 57, 55, 66)
-                                      ),
-                                      Text(
-                                        'Process',
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 57, 55, 66),
-                                          fontSize: 14,
+                            Icon(
+                              Icons.location_on,
+                              size: 20,
+                              color: Color.fromARGB(255, 57, 55, 66)
+                            ),
+                            Text(
+                              buyerlocationText,
+                              style: TextStyle(
+                              color: Color.fromARGB(255, 57, 55, 66),
+                              fontSize: 14,
+                            ),
+                          ),
+                          ]
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Price: ' + price,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          'Quantity: ' + quantity.toString(),
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Status: ' + status,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Date: ' + checkoutDate,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Time: ' + checkoutTime,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 90,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.shopping_cart,
+                                          size: 17,
+                                          color: Color.fromARGB(255, 57, 55, 66)
                                         ),
+                                        Text(
+                                          'Process',
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      process,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 55, 66),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ],
+                                    ),
+                                  ]
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.attach_money,
+                                    size: 17,
+                                    color: Color.fromARGB(255, 57, 55, 66)
                                   ),
                                   Text(
-                                    process,
+                                    'Total Price',
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 57, 55, 66),
                                       fontSize: 14,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ]
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.attach_money,
-                                  size: 17,
-                                  color: Color.fromARGB(255, 57, 55, 66)
-                                ),
-                                Text(
-                                  'Total Price',
+                              SizedBox(
+                                width: 105,
+                                child: Text(
+                                  '₱' + price,
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 57, 55, 66),
                                     fontSize: 14,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 105,
-                              child: Text(
-                                '₱' + price,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 57, 55, 66),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                  ],
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
                 ),
+              ],
+            ),
+            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Handle button press
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 150, 255, 154), // Change the button color here
+                ),
+                child: Text('Accept', style: TextStyle(color: Color(0xFF393742)),),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle button press
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 252, 117, 117), // Change the button color here
+                ),
+                child: Text('Reject', style: TextStyle(color: Color(0xFF393742)),),
               ),
             ],
           ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProcessItem extends StatelessWidget {
+  final String title;
+  final int number;
+  final String imagePath;
+  final String genreText;
+  final String userText;
+  final String locationText;
+  final String price;
+  final String rentPrice;
+  final String rentDue;
+  final String rentTotalDue;
+  final String description;
+  final String userImage;
+  final String condition;
+  final String buyerText;
+  final String buyerlocationText;
+  final String checkoutDate;
+  final String checkoutTime;
+  final String process;
+  final String paymentMode;
+  final String status;
+  final int quantity;
+
+  const ProcessItem({
+    required this.title,
+    required this.number,
+    required this.imagePath,
+    required this.genreText,
+    required this.userText,
+    required this.locationText,
+    required this.price,
+    required this.rentPrice,
+    required this.rentDue,
+    required this.rentTotalDue,
+    required this.description,
+    required this.userImage,
+    required this.condition,
+    required this.buyerText,
+    required this.buyerlocationText,
+    required this.checkoutDate,
+    required this.checkoutTime,
+    required this.process,
+    required this.paymentMode,
+    required this.status,
+    required this.quantity,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(0),
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
+                  child: Expanded(
+                    child: Image.network( // Change from Image.asset to Image.network
+                      imagePath,
+                      height: 250,
+                      width: 140,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 57, 55, 66),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          buyerText,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              size: 20,
+                              color: Color.fromARGB(255, 57, 55, 66)
+                            ),
+                            Text(
+                              buyerlocationText,
+                              style: TextStyle(
+                              color: Color.fromARGB(255, 57, 55, 66),
+                              fontSize: 14,
+                            ),
+                          ),
+                          ]
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Price: ' + price,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          'Quantity: ' + quantity.toString(),
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Status: ' + status,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Date: ' + checkoutDate,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Time: ' + checkoutTime,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 90,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.shopping_cart,
+                                          size: 17,
+                                          color: Color.fromARGB(255, 57, 55, 66)
+                                        ),
+                                        Text(
+                                          'Process',
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      process,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 55, 66),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ]
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.attach_money,
+                                    size: 17,
+                                    color: Color.fromARGB(255, 57, 55, 66)
+                                  ),
+                                  Text(
+                                    'Total Price',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 57, 55, 66),
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 105,
+                                child: Text(
+                                  '₱' + price,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 57, 55, 66),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -1073,6 +1400,14 @@ class HistoryItem extends StatelessWidget {
   final String description;
   final String userImage;
   final String condition;
+  final String buyerText;
+  final String buyerlocationText;
+  final String checkoutDate;
+  final String checkoutTime;
+  final String process;
+  final String paymentMode;
+  final String status;
+  final int quantity;
 
   const HistoryItem({
     required this.title,
@@ -1088,157 +1423,185 @@ class HistoryItem extends StatelessWidget {
     required this.description,
     required this.userImage,
     required this.condition,
+    required this.buyerText,
+    required this.buyerlocationText,
+    required this.checkoutDate,
+    required this.checkoutTime,
+    required this.process,
+    required this.paymentMode,
+    required this.status,
+    required this.quantity,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: GestureDetector(
-        onTap: () {
-          // Navigate to the book details page and pass the book details
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => BookDetailsPage(
-              title: title,
-              genreText: genreText,
-              userText: userText,
-              locationText: locationText,
-              price: price,
-              rentPrice: rentPrice,
-              imagePath: imagePath,
-              rentDue: rentDue,
-              rentTotalDue: rentTotalDue,
-              description: description,
-              userImage: userImage,
-              condition: condition, // Pass the image path
-            )),
-          );
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
-                child: Expanded(
-                  child: Image.network( // Change from Image.asset to Image.network
-                    imagePath,
-                    height: 250,
-                    width: 140,
-                    fit: BoxFit.cover,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(0),
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
+                  child: Expanded(
+                    child: Image.network( // Change from Image.asset to Image.network
+                      imagePath,
+                      height: 250,
+                      width: 140,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 57, 55, 66),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        'Genre: ' + genreText,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
                         style: TextStyle(
                           color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: Text(
-                        'By: ' + userText,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            size: 20,
-                            color: Color.fromARGB(255, 57, 55, 66)
-                          ),
-                          Text(
-                            locationText,
-                            style: TextStyle(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          buyerText,
+                          style: TextStyle(
                             color: Color.fromARGB(255, 57, 55, 66),
                             fontSize: 14,
                           ),
                         ),
-                        ]
                       ),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
                           children: [
-                            SizedBox(
-                              width: 90,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.shopping_cart,
-                                        size: 17,
-                                        color: Color.fromARGB(255, 57, 55, 66)
-                                      ),
-                                      Text(
-                                        'Buy Price',
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 57, 55, 66),
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    '₱' + price,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 57, 55, 66),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ]
-                              ),
+                            Icon(
+                              Icons.location_on,
+                              size: 20,
+                              color: Color.fromARGB(255, 57, 55, 66)
                             ),
-                          ],
+                            Text(
+                              buyerlocationText,
+                              style: TextStyle(
+                              color: Color.fromARGB(255, 57, 55, 66),
+                              fontSize: 14,
+                            ),
+                          ),
+                          ]
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 23, 0, 0),
-                          child: Column(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Price: ' + price,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          'Quantity: ' + quantity.toString(),
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Status: ' + status,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Date Completed: ' + checkoutDate,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Text(
+                          'Time Completed: ' + checkoutTime,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 55, 66),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 90,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.shopping_cart,
+                                          size: 17,
+                                          color: Color.fromARGB(255, 57, 55, 66)
+                                        ),
+                                        Text(
+                                          'Process',
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      process,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 55, 66),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ]
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
                                   Icon(
-                                    Icons.receipt,
+                                    Icons.attach_money,
                                     size: 17,
                                     color: Color.fromARGB(255, 57, 55, 66)
                                   ),
                                   Text(
-                                    'Rental Price',
+                                    'Total Price',
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 57, 55, 66),
                                       fontSize: 14,
@@ -1249,7 +1612,7 @@ class HistoryItem extends StatelessWidget {
                               SizedBox(
                                 width: 105,
                                 child: Text(
-                                  '₱' + rentPrice + "/" + rentDue,
+                                  '₱' + price,
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 57, 55, 66),
                                     fontSize: 14,
@@ -1257,24 +1620,17 @@ class HistoryItem extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Text(
-                                'in ' + rentTotalDue,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 57, 55, 66),
-                                  fontSize: 14,
-                                ),
-                              ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                  ],
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );

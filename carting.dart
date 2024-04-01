@@ -56,6 +56,7 @@ class _CartingPageState extends State<CartingPage> {
               ],
             ),
           ),
+          const Divider(),
           Expanded(
             child: ListView(
               children: [
@@ -67,8 +68,10 @@ class _CartingPageState extends State<CartingPage> {
                   genreText: 'Genre: Academic',
                   userText: 'Posted by: Romeo Seva III',
                   locationText: 'Silay City',
-                  price: 'Price: ₱350.00',
-                  rentPrice: 'Rental Price: ₱50.00/week in 2 months',
+                  price: '350.00',
+                  rentPrice: '₱50.00/week in 2 months',
+                  quantity: '1',
+                  process: 'To Buy',
                   isSelected: _isSelected[0],
                   onChanged: (value) {
                     setState(() {
@@ -77,6 +80,7 @@ class _CartingPageState extends State<CartingPage> {
                     });
                   },
                 ),
+                const Divider(),
                 BookItem(
                   title: 'Kayamanan',
                   number: 2,
@@ -85,8 +89,10 @@ class _CartingPageState extends State<CartingPage> {
                   genreText: 'Genre: Academic',
                   userText: 'Posted by: Russ Allen Garde',
                   locationText: 'Bacolod City',
-                  price: 'Price: ₱300.00',
-                  rentPrice: 'Rental Price: ₱50.00/week in 2 months',
+                  price: '300.00',
+                  rentPrice: '50.00/week in 2 months',
+                  quantity: '1',
+                  process: 'To Buy',
                   isSelected: _isSelected[1],
                   onChanged: (value) {
                     setState(() {
@@ -95,6 +101,7 @@ class _CartingPageState extends State<CartingPage> {
                     });
                   },
                 ),
+                const Divider(),
               ],
             ),
           ),
@@ -265,6 +272,8 @@ class _CartingPageState extends State<CartingPage> {
           locationText: 'Silay City',
           price: 'Price: ₱350.00',
           rentPrice: 'Rental Price: ₱50.00/week in 2 months',
+          quantity: '1',
+          process: 'To Buy',
           isSelected: true,
           onChanged: (_) {},
         );
@@ -279,6 +288,8 @@ class _CartingPageState extends State<CartingPage> {
           locationText: 'Bacolod City',
           price: 'Price: ₱300.00',
           rentPrice: 'Rental Price: ₱50.00/week in 2 months',
+          quantity: '1',
+          process: 'To Buy',
           isSelected: true,
           onChanged: (_) {},
         );
@@ -314,6 +325,8 @@ class BookItem extends StatelessWidget {
   final String rentPrice;
   final bool isSelected;
   final ValueChanged<bool?> onChanged;
+  final String quantity;
+  final String process;
 
   const BookItem({
     required this.title,
@@ -326,12 +339,14 @@ class BookItem extends StatelessWidget {
     required this.rentPrice,
     required this.isSelected,
     required this.onChanged,
+    required this.quantity,
+    required this.process,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: GestureDetector(
         onTap: () {
           // Navigate to the book details page and pass the book details
@@ -348,102 +363,150 @@ class BookItem extends StatelessWidget {
           //   )),
           // );
         },
-        child: Container(
-          height: 250,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Checkbox(
-                    value: isSelected,
-                    onChanged: onChanged,
-                    activeColor: Color(0xFF393742), // Change the color of the checkmark
-                    checkColor: Color(0xFFFFD3AF),
+        child: Column(
+          children: [
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 0,
+                    child: Checkbox(
+                      value: isSelected,
+                      onChanged: onChanged,
+                      activeColor: Color(0xFF393742), // Change the color of the checkmark
+                      checkColor: Color(0xFFFFD3AF),
+                    ),
                   ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Image.network(
-                  imagePath,
-                  height: 250,
-                  width: 250,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          genreText,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 57, 55, 66),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          userText,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 57, 55, 66),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        locationText,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, bottom: 10.0, right: 16.0),
-                          child: Text(
-                            price,
+                  Expanded(
+                    flex: 2,
+                    child: Image.network(
+                      imagePath,
+                      height: 250,
+                      width: 140,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
                             style: TextStyle(
                               color: Color.fromARGB(255, 57, 55, 66),
-                              fontSize: 20,
                               fontWeight: FontWeight.bold,
+                              fontSize: 24,
                             ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: Text(
+                              'Price: ' + price,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 55, 66),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'Quantity: ' + quantity.toString(),
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 55, 66),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 25),
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.shopping_cart,
+                                              size: 17,
+                                              color: Color.fromARGB(255, 57, 55, 66)
+                                            ),
+                                            Text(
+                                              'Process',
+                                              style: TextStyle(
+                                                color: Color.fromARGB(255, 57, 55, 66),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          process,
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ]
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.attach_money,
+                                          size: 17,
+                                          color: Color.fromARGB(255, 57, 55, 66)
+                                        ),
+                                        Text(
+                                          'Total Price',
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 105,
+                                      child: Text(
+                                        '₱' + price,
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 57, 55, 66),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
