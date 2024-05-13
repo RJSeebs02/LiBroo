@@ -509,24 +509,82 @@ class BookDetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Divider(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-              child: Text(
-                'Genre: ' + genreText,
-                style: TextStyle(
-                  fontSize: 16,
+
+            Row(
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      child: Text(
+                        'Genre: ' + genreText,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      child: Text(
+                        'Condition: ' + condition,
+                        style: TextStyle(
+                          fontSize: 16,
+                      ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-              child: Text(
-                'Condition: ' + condition,
-                style: TextStyle(
-                  fontSize: 16,
+                Container(
+                  color: Color(0xFF393742),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MaterialButton(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onPressed: () {
+                    Navigator.pop(context);// Close the dialog
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_bag, color: Colors.white
+                      ),
+                      Text(
+                        'Buy',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                MaterialButton(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onPressed: () {
+                    Navigator.pop(context);// Close the dialog
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.receipt, color: Colors.white
+                      ),
+                      Text(
+                        'Rent',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+                  ),
+                ),
+              ],
             ),
+            
             Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -612,7 +670,7 @@ class BookDetailsPage extends StatelessWidget {
         color: Color.fromARGB(255, 57, 55, 66),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart, color: Colors.white), // Change icon color to white
+            icon: Icon(Icons.shopping_bag, color: Colors.white), // Change icon color to white
             label: 'Buy',
           ),
           BottomNavigationBarItem(
