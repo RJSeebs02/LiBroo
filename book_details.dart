@@ -39,12 +39,6 @@ class BookDetailsPage extends StatelessWidget {
     // Handle bottom navigation bar item tap
     _selectedIndex = index;
     if (_selectedIndex == 0) {
-      // Buy option selected
-      _showPurchaseDialog(context);
-    } else if (_selectedIndex == 1) {
-      // Rent option selected
-      _showRentDialog(context);
-    } else if (_selectedIndex == 2) {
       
                 Navigator.push(
                   context,
@@ -58,7 +52,7 @@ class BookDetailsPage extends StatelessWidget {
                     ),
                   ),
                 ); // Navigate to RentalPage with book details
-    } else if (_selectedIndex == 3) {
+    } else if (_selectedIndex == 1) {
       ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor:Color.fromARGB(255, 57, 55, 66),
@@ -536,50 +530,53 @@ class BookDetailsPage extends StatelessWidget {
                 ),
                 Container(
                   color: Color(0xFF393742),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MaterialButton(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onPressed: () {
-                    Navigator.pop(context);// Close the dialog
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.shopping_bag, color: Colors.white
-                      ),
-                      Text(
-                        'Buy',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                MaterialButton(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onPressed: () {
-                    Navigator.pop(context);// Close the dialog
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.receipt, color: Colors.white
-                      ),
-                      Text(
-                        'Rent',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                          padding: EdgeInsets.symmetric(vertical: 4),
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            _showPurchaseDialog(context);
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.shopping_bag, color: Colors.white
+                              ),
+                              Text(
+                                'Buy',
+                                style: TextStyle(fontSize: 16, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                        MaterialButton(
+                          padding: EdgeInsets.symmetric(vertical: 4),
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            _showRentDialog(context);
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.receipt, color: Colors.white
+                              ),
+                              Text(
+                                'Rent',
+                                style: TextStyle(fontSize: 16, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -669,14 +666,6 @@ class BookDetailsPage extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(
         color: Color.fromARGB(255, 57, 55, 66),
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag, color: Colors.white), // Change icon color to white
-            label: 'Buy',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt, color: Colors.white), // Change icon color to white
-            label: 'Rent',
-          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat, color: Colors.white), // Change icon color to white
             label: 'Chat',
