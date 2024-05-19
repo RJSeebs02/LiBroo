@@ -3,9 +3,94 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'book_details.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class BookItem {
+  final String book_id;
+  final String book_title;
+  final String book_genre;
+  final String book_user;
+  final String book_location;
+  final String book_buyprice;
+  final String book_rentprice;
+  final String book_image;
+  final String book_rentdue;
+  final String book_rentduration;
+  final String book_description;
+  final String book_user_image;
+  final String book_condition;
+
+  BookItem({
+    required this.book_id,
+    required this.book_title,
+    required this.book_genre,
+    required this.book_user,
+    required this.book_location,
+    required this.book_buyprice,
+    required this.book_rentprice,
+    required this.book_image,
+    required this.book_rentdue,
+    required this.book_rentduration,
+    required this.book_description,
+    required this.book_user_image,
+    required this.book_condition,
+  });
+}
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Libroo',
+      home: ImageAndJsonLoadingDemo(),
+    );
+  }
+}
+
+class ImageAndJsonLoadingDemo extends StatefulWidget {
+  const ImageAndJsonLoadingDemo({Key? key}) : super(key: key);
+
+  @override
+  _ImageAndJsonLoadingDemoState createState() =>
+      _ImageAndJsonLoadingDemoState();
+}
+
+class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
+  late Future<List<BookItem>> _bookItems;
+
+  @override
+  void initState() {
+    super.initState();
+    _bookItems = _fetchBookItems();
+  }
+
+  Future<List<BookItem>> _fetchBookItems() async {
+    final response = await http
+        .get(Uri.parse('https://zenenix.helioho.st/serve/booksread.php'));
+    if (response.statusCode == 200) {
+      Iterable data = json.decode(response.body);
+      return List<BookItem>.from(data.map((model) => BookItem(
+            book_id: model['book_id'],
+            book_title: model['book_title'],
+            book_genre: model['book_genre'],
+            book_user: model['book_user'],
+            book_location: model['book_location'],
+            book_buyprice: model['book_buyprice'],
+            book_rentprice: model['book_rentprice'],
+            book_image: model['book_image'],
+            book_rentdue: model['book_rentdue'],
+            book_rentduration: model['book_rentduration'],
+            book_description: model['book_description'],
+            book_user_image: model['book_user_image'],
+            book_condition: model['book_condition'],
+          )));
+    } else {
+      throw Exception('Failed to load book items');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +98,10 @@ class HomePage extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF393742), // Match the color of the bottom navigation bar
+        backgroundColor: Color(0xFF393742),
         title: Text(
-          'Libroo', // Change the title text to "Libroo"
-          style: TextStyle(color: Colors.white), // Make the title text color white
+          'Libroo',
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Column(
@@ -30,7 +115,7 @@ class HomePage extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 223, 223, 223),
-                      borderRadius: BorderRadius.circular(20), // Add border radius
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: TextField(
                       style: TextStyle(color: Colors.black),
@@ -54,84 +139,198 @@ class HomePage extends StatelessWidget {
           ),
           Divider(),
           Expanded(
-            child: ListView(
-              children: [
-                BookItem(
-                  title: 'Pinagyamang Pluma 9',
-                  number: 1,
-                  imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img1.png',
-                  genreText: 'Academic',
-                  userText: 'Romeo Seva III',
-                  locationText: 'Silay City',
-                  price: '350.00',
-                  rentPrice: '50.00',
-                  rentDue: 'week',
-                  rentTotalDue: '2 months',
-                  description: 'Ang seryeng Pinagyamang Pluma ay sumasagisag sa mithiing ang serye nawang ito ay maging instrumento sa paglinang ng mga kabataang tulad mo na hindi lamang matalino kundi maka-Diyos, may mabuting kalooban, handa sa mga hamong dala ng totoong buhay, at kapaki-pakinabang sa kapwa, sa kalikasan, at sa bayan.',
-                  userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Romeo.jpg',
-                  condition: 'Slightly Used',
-                ),
-
-                const SizedBox(height: 30),
-                const Divider(),
-                const SizedBox(height: 10),
-                
-                BookItem(
-                  title: 'Kayamanan',
-                  number: 2,
-                  imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img2.jpg',
-                  genreText: 'Academic',
-                  userText: 'Russ Allen Garde',
-                  locationText: 'Bacolod City',
-                  price: '300.00',
-                  rentPrice: '50.00',
-                  rentDue: 'week',
-                  rentTotalDue: '2 months',
-                  description: 'Ang seryeng Kayamanan ay may natatanging disenyo para sa pagtuturo at pagkatuto ng Araling Panlipunan sa Baitang 1-10. Batay ito sa mga pananaliksik ng mga makabago at mabisang pamamaraan na natuklasan at iminumungkahi ng mga dalubhasa sa edukasyon. Nalilinang nito ang mga kaalaman, pag-unawa, kasanayan, at pagpapahalagang panlipunan na makahuhubog ng responsable at produktibong mamamayang maka-Diyos, makatao, makabayan, makakalikasan, at makasandaigdigan. ',
-                  userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Russ.jpg',
-                  condition: 'Used',
-                ),
-
-                const SizedBox(height: 30),
-                const Divider(),
-                const SizedBox(height: 10),
-
-                BookItem(
-                  title: 'Everyday Life in World Literature 10',
-                  number: 3,
-                  imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img3.jpg',
-                  genreText: 'Academic',
-                  userText: 'Argian Cortez',
-                  locationText: 'Talisay City',
-                  price: '350.00',
-                  rentPrice: '50.00',
-                  rentDue: 'week',
-                  rentTotalDue: '2 months',
-                  description: 'Authors: Honorina Rowena M. Castro\nShirley L. Carpeso\nMaria Cristina A. Obilio\n\nK-12 Book\nPhoenix Publishing House',
-                  userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Argian.jpg',
-                  condition: 'New',
-                ),
-
-                const SizedBox(height: 30),
-                const Divider(),
-                const SizedBox(height: 10),
-
-                BookItem(
-                  title: 'Philippine Politics & Governance',
-                  number: 4,
-                  imagePath: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img4.jpg',
-                  genreText: 'Academic',
-                  userText: 'Anton Magbanua',
-                  locationText: 'Bacolod City',
-                  price: '320.00',
-                  rentPrice: '50.00',
-                  rentDue: 'week',
-                  rentTotalDue: '2 months',
-                  description: 'This book introduces students to the basic concepts and vital elements of politics and governance from an historical-institutional perspective. In particular, it explains how the important features of our country’s political structures or institutions, processes, and relationships have developed over time.',
-                  userImage: 'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Anton.jpg',
-                  condition: 'Used',
-                ),
-              ],
+            child: FutureBuilder<List<BookItem>>(
+              future: _bookItems,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      var book = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => BookDetailsPage(
+                                title: book.book_title,
+                                genreText: book.book_genre,
+                                userText: book.book_user,
+                                locationText: book.book_location,
+                                price: book.book_buyprice,
+                                rentPrice: book.book_rentprice,
+                                imagePath: book.book_image,
+                                rentDue: book.book_rentdue,
+                                rentTotalDue: book.book_rentduration,
+                                description: book.book_description,
+                                userImage: book.book_user_image,
+                                condition: book.book_condition,
+                              )),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
+                                  child: Image.network(
+                                    book.book_image,
+                                    height: 250,
+                                    width: 140,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        book.book_title,
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 57, 55, 66),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 24,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'Genre: ' + book.book_genre,
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Text(
+                                          'By: ' + book.book_user,
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.location_on,
+                                              size: 20,
+                                              color: Color.fromARGB(255, 57, 55, 66)
+                                            ),
+                                            Text(
+                                              book.book_location,
+                                              style: TextStyle(
+                                              color: Color.fromARGB(255, 57, 55, 66),
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          ]
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: 90,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.shopping_cart,
+                                                          size: 17,
+                                                          color: Color.fromARGB(255, 57, 55, 66)
+                                                        ),
+                                                        Text(
+                                                          'Buy Price',
+                                                          style: TextStyle(
+                                                            color: Color.fromARGB(255, 57, 55, 66),
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                      '₱' + book.book_buyprice,
+                                                      style: TextStyle(
+                                                        color: Color.fromARGB(255, 57, 55, 66),
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ]
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(10, 23, 0, 0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.receipt,
+                                                      size: 17,
+                                                      color: Color.fromARGB(255, 57, 55, 66)
+                                                    ),
+                                                    Text(
+                                                      'Rental Price',
+                                                      style: TextStyle(
+                                                        color: Color.fromARGB(255, 57, 55, 66),
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: 105,
+                                                  child: Text(
+                                                    '₱' + book.book_rentprice + ' / ' + book.book_rentdue,
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(255, 57, 55, 66),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 20)
+                                    ],
+                                  )
+                                )
+                              ]
+                            ),
+                          )
+                        )
+                      );
+                    },
+                  );
+                }
+              },
             ),
           ),
         ],
@@ -142,293 +341,84 @@ class HomePage extends StatelessWidget {
   void _showSortingOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return Container(
-          child: Wrap(
-            children: <Widget>[
+          height: 150,
+          color: Colors.white,
+          child: Column(
+            children: [
               ListTile(
-                title: Text('All'),
+                title: const Text('Sort by Title'),
                 onTap: () {
                   Navigator.pop(context);
+                  setState(() {
+                    _bookItems = _fetchBookItemsSortedByTitle();
+                  });
                 },
               ),
               ListTile(
-                title: Text('Academic'),
+                title: const Text('Sort by Genre'),
                 onTap: () {
                   Navigator.pop(context);
+                  setState(() {
+                    _bookItems = _fetchBookItemsSortedByGenre();
+                  });
                 },
               ),
-              ListTile(
-                title: Text('Fantasy'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Horror'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Manga'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Mystery'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Romance'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Thriller'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(
-                height: 70,
-              )
             ],
           ),
         );
       },
     );
   }
-}
 
-class BookItem extends StatelessWidget {
-  final String title;
-  final int number;
-  final String imagePath;
-  final String genreText;
-  final String userText;
-  final String locationText;
-  final String price;
-  final String rentPrice;
-  final String rentDue;
-  final String rentTotalDue;
-  final String description;
-  final String userImage;
-  final String condition;
-
-  const BookItem({
-    required this.title,
-    required this.number,
-    required this.imagePath,
-    required this.genreText,
-    required this.userText,
-    required this.locationText,
-    required this.price,
-    required this.rentPrice,
-    required this.rentDue,
-    required this.rentTotalDue,
-    required this.description,
-    required this.userImage,
-    required this. condition,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: GestureDetector(
-        onTap: () {
-          // Navigate to the book details page and pass the book details
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => BookDetailsPage(
-              title: title,
-              genreText: genreText,
-              userText: userText,
-              locationText: locationText,
-              price: price,
-              rentPrice: rentPrice,
-              imagePath: imagePath,
-              rentDue: rentDue,
-              rentTotalDue: rentTotalDue,
-              description: description,
-              userImage: userImage,
-              condition: condition, // Pass the image path
-            )),
-          );
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
-                child: Expanded(
-                  child: Image.network( // Change from Image.asset to Image.network
-                    imagePath,
-                    height: 250,
-                    width: 140,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 57, 55, 66),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        'Genre: ' + genreText,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: Text(
-                        'By: ' + userText,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 57, 55, 66),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            size: 20,
-                            color: Color.fromARGB(255, 57, 55, 66)
-                          ),
-                          Text(
-                            locationText,
-                            style: TextStyle(
-                            color: Color.fromARGB(255, 57, 55, 66),
-                            fontSize: 14,
-                          ),
-                        ),
-                        ]
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 90,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.shopping_cart,
-                                        size: 17,
-                                        color: Color.fromARGB(255, 57, 55, 66)
-                                      ),
-                                      Text(
-                                        'Buy Price',
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 57, 55, 66),
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    '₱' + price,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 57, 55, 66),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ]
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 23, 0, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.receipt,
-                                    size: 17,
-                                    color: Color.fromARGB(255, 57, 55, 66)
-                                  ),
-                                  Text(
-                                    'Rental Price',
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 57, 55, 66),
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 105,
-                                child: Text(
-                                  '₱' + rentPrice + "/" + rentDue,
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 57, 55, 66),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'in ' + rentTotalDue,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 57, 55, 66),
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  Future<List<BookItem>> _fetchBookItemsSortedByTitle() async {
+    final response = await http
+        .get(Uri.parse('https://devlab.helioho.st/serve/readbooks.php?sort=title'));
+    if (response.statusCode == 200) {
+      Iterable data = json.decode(response.body);
+      return List<BookItem>.from(data.map((model) => BookItem(
+            book_id: model['book_id'],
+            book_title: model['book_title'],
+            book_genre: model['book_genre'],
+            book_user: model['book_user'],
+            book_location: model['book_location'],
+            book_buyprice: model['book_buyprice'],
+            book_rentprice: model['book_rentprice'],
+            book_image: model['book_image'],
+            book_rentdue: model['book_rentdue'],
+            book_rentduration: model['book_rentduration'],
+            book_description: model['book_description'],
+            book_user_image: model['book_user_image'],
+            book_condition: model['book_condition'],
+          )));
+    } else {
+      throw Exception('Failed to load book items');
+    }
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-  ));
+  Future<List<BookItem>> _fetchBookItemsSortedByGenre() async {
+    final response = await http
+        .get(Uri.parse('https://devlab.helioho.st/serve/readbooks.php?sort=genre'));
+    if (response.statusCode == 200) {
+      Iterable data = json.decode(response.body);
+      return List<BookItem>.from(data.map((model) => BookItem(
+            book_id: model['book_id'],
+            book_title: model['book_title'],
+            book_genre: model['book_genre'],
+            book_user: model['book_user'],
+            book_location: model['book_location'],
+            book_buyprice: model['book_buyprice'],
+            book_rentprice: model['book_rentprice'],
+            book_image: model['book_image'],
+            book_rentdue: model['book_rentdue'],
+            book_rentduration: model['book_rentduration'],
+            book_description: model['book_description'],
+            book_user_image: model['book_user_image'],
+            book_condition: model['book_condition'],
+          )));
+    } else {
+      throw Exception('Failed to load book items');
+    }
+  }
 }

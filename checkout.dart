@@ -240,8 +240,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     backgroundColor: Color.fromARGB(255, 57, 55, 66),
                                   ),
                                 );
-                                Navigator.popUntil(context,
-                                    ModalRoute.withName('/')); 
+                                Navigator.pushReplacementNamed(context, '/home');
                               },
                               child: Text(
                                   "Confirm",

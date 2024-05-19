@@ -327,8 +327,7 @@ class _PaymentPageState extends State<RentalPage> {
                                       backgroundColor: Color.fromARGB(255, 57, 55, 66),
                                     ),
                                   );
-                                  Navigator.popUntil(context,
-                                      ModalRoute.withName('/')); // Pop until reaching main.dart
+                                  Navigator.pushReplacementNamed(context, '/home');// Pop until reaching main.dart
                                 },
                                 child: Text(
                                   "Confirm",
