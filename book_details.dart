@@ -505,8 +505,10 @@ class BookDetailsPage extends StatelessWidget {
             Divider(),
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),

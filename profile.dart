@@ -5,14 +5,24 @@ import 'edit_profile.dart';
 import 'settings.dart';
 import 'premium_subscription.dart'; // Import the premium subscription offer page
 import 'about_us.dart';
+import 'login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  Future<void> _logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('validation');
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, '/');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF393742),
         title: Text(
           'Profile',
@@ -128,7 +138,7 @@ class ProfilePage extends StatelessWidget {
                 icon: Icons.logout,
                 textColor: Colors.red,
                 endIcon: false,
-                onPress: (){},
+                onPress: () => _logout(context),
               ),
             ],
           ),

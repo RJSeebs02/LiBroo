@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF393742), // Match the color of the bottom navigation bar
         title: Text(
           'Libroo', // Change the title text to "Libroo"
