@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     final String user_password = passwordController.text.trim();
 
     // Your API endpoint
-    const String apiUrl = 'https://zenenix.helioho.st/serve/validate.php';
+    const String apiUrl = 'https://zenenix.helioho.st/serve/user/validate.php';
 
     try {
       final response = await http.post(
@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
         // Store validation status in shared preferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('validation', validation);
+        await prefs.setString('user_username', user_username);
 
         if (validation) {
           _navigateToHome();

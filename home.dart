@@ -7,13 +7,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class BookItem {
-  final String book_id;
+  final int book_id;
   final String book_title;
   final String book_genre;
   final String book_user;
   final String book_location;
-  final String book_buyprice;
-  final String book_rentprice;
+  final int book_buyprice;
+  final int book_rentprice;
   final String book_image;
   final String book_rentdue;
   final String book_rentduration;
@@ -69,17 +69,17 @@ class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
 
   Future<List<BookItem>> _fetchBookItems() async {
     final response = await http
-        .get(Uri.parse('https://zenenix.helioho.st/serve/booksread.php'));
+        .get(Uri.parse('https://zenenix.helioho.st/serve/book/booksread.php'));
     if (response.statusCode == 200) {
       Iterable data = json.decode(response.body);
       return List<BookItem>.from(data.map((model) => BookItem(
-            book_id: model['book_id'],
+            book_id: int.parse(model['book_id']),
             book_title: model['book_title'],
             book_genre: model['book_genre'],
             book_user: model['book_user'],
             book_location: model['book_location'],
-            book_buyprice: model['book_buyprice'],
-            book_rentprice: model['book_rentprice'],
+            book_buyprice: int.parse(model['book_buyprice']),
+            book_rentprice: int.parse(model['book_rentprice']),
             book_image: model['book_image'],
             book_rentdue: model['book_rentdue'],
             book_rentduration: model['book_rentduration'],
@@ -157,20 +157,9 @@ class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => BookDetailsPage(
-                                title: book.book_title,
-                                genreText: book.book_genre,
-                                userText: book.book_user,
-                                locationText: book.book_location,
-                                price: book.book_buyprice,
-                                rentPrice: book.book_rentprice,
-                                imagePath: book.book_image,
-                                rentDue: book.book_rentdue,
-                                rentTotalDue: book.book_rentduration,
-                                description: book.book_description,
-                                userImage: book.book_user_image,
-                                condition: book.book_condition,
-                              )),
+                              MaterialPageRoute(
+                                builder: (context) => BookDetailsPage(bookId: book.book_id),
+                              )
                             );
                           },
                           child: Container(
@@ -269,7 +258,7 @@ class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
                                                       ],
                                                     ),
                                                     Text(
-                                                      '₱' + book.book_buyprice,
+                                                      '₱${book.book_buyprice}',
                                                       style: TextStyle(
                                                         color: Color.fromARGB(255, 57, 55, 66),
                                                         fontSize: 14,
@@ -305,7 +294,7 @@ class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
                                                 SizedBox(
                                                   width: 105,
                                                   child: Text(
-                                                    '₱' + book.book_rentprice + ' / ' + book.book_rentdue,
+                                                    '₱ ${book.book_rentprice} / ' + book.book_rentdue,
                                                     style: TextStyle(
                                                       color: Color.fromARGB(255, 57, 55, 66),
                                                       fontSize: 14,

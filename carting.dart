@@ -1,27 +1,105 @@
 import 'package:flutter/material.dart';
 import 'checkout.dart';
+import 'book_details.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class CartingPage extends StatefulWidget {
+class CartBookItem {
+  final String book_id;
+  final String book_title;
+  final String book_genre;
+  final String book_user;
+  final String book_location;
+  final String book_buyprice;
+  final String book_rentprice;
+  final String book_image;
+  final String book_rentdue;
+  final String book_rentduration;
+  final String book_description;
+  final String book_user_image;
+  final String book_condition;
+
+  CartBookItem({
+    required this.book_id,
+    required this.book_title,
+    required this.book_genre,
+    required this.book_user,
+    required this.book_location,
+    required this.book_buyprice,
+    required this.book_rentprice,
+    required this.book_image,
+    required this.book_rentdue,
+    required this.book_rentduration,
+    required this.book_description,
+    required this.book_user_image,
+    required this.book_condition,
+  });
+}
+
+class CartingPage extends StatelessWidget {
   const CartingPage({Key? key}) : super(key: key);
 
   @override
-  _CartingPageState createState() => _CartingPageState();
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Libroo',
+      home: ImageAndJsonLoadingDemo(),
+    );
+  }
 }
 
-class _CartingPageState extends State<CartingPage> {
-  List<BookItem> _selectedItems = [];
-  List<bool> _isSelected = [false, false];
-  bool _isAllSelected = false;
+class ImageAndJsonLoadingDemo extends StatefulWidget {
+  const ImageAndJsonLoadingDemo({Key? key}) : super(key: key);
+
+  @override
+  _ImageAndJsonLoadingDemoState createState() =>
+      _ImageAndJsonLoadingDemoState();
+}
+
+class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
+  late Future<List<CartBookItem>> _bookItems;
+
+  @override
+  void initState() {
+    super.initState();
+    _bookItems = _fetchBookItems();
+  }
+
+  Future<List<CartBookItem>> _fetchBookItems() async {
+    final response = await http
+        .get(Uri.parse('https://zenenix.helioho.st/serve/carting_item/carting_itemread.php'));
+    if (response.statusCode == 200) {
+      Iterable data = json.decode(response.body);
+      return List<CartBookItem>.from(data.map((model) => CartBookItem(
+            book_id: model['book_id'],
+            book_title: model['book_title'],
+            book_genre: model['book_genre'],
+            book_user: model['book_user'],
+            book_location: model['book_location'],
+            book_buyprice: model['book_buyprice'],
+            book_rentprice: model['book_rentprice'],
+            book_image: model['book_image'],
+            book_rentdue: model['book_rentdue'],
+            book_rentduration: model['book_rentduration'],
+            book_description: model['book_description'],
+            book_user_image: model['book_user_image'],
+            book_condition: model['book_condition'],
+          )));
+    } else {
+      throw Exception('Failed to load book items');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF393742), // Match the color of the bottom navigation bar
+        backgroundColor: Color(0xFF393742),
         title: Text(
-          'Carting', // Change the title text to "Carting"
-          style: TextStyle(color: Colors.white), // Make the title text color white
+          'Libroo',
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Column(
@@ -40,7 +118,7 @@ class _CartingPageState extends State<CartingPage> {
                     child: TextField(
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
-                        hintText: 'Search Carting',
+                        hintText: 'Search Books',
                         hintStyle: TextStyle(color: Colors.black),
                         prefixIcon: Icon(Icons.search, color: Colors.black),
                         border: InputBorder.none,
@@ -49,536 +127,279 @@ class _CartingPageState extends State<CartingPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete, color: Colors.black),
+                  icon: Icon(Icons.sort, color: Colors.black),
                   onPressed: () {
-                    _showDeleteConfirmationDialog(context);
+                    _showSortingOptions(context);
                   },
                 ),
               ],
             ),
           ),
-          const Divider(),
+          Divider(),
           Expanded(
-            child: ListView(
-              children: [
-                BookItem(
-                  title: 'Pinagyamang Pluma 9',
-                  number: 1,
-                  imagePath:
-                      'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img1.png',
-                  genreText: 'Genre: Academic',
-                  userText: 'Posted by: Romeo Seva III',
-                  locationText: 'Silay City',
-                  price: '350.00',
-                  rentPrice: '₱50.00/week in 2 months',
-                  quantity: '1',
-                  process: 'To Buy',
-                  isSelected: _isSelected[0],
-                  onChanged: (value) {
-                    setState(() {
-                      _isSelected[0] = value!;
-                      _isAllSelected = _isSelected.every((element) => element);
-                    });
-                  },
-                ),
-                const Divider(),
-                BookItem(
-                  title: 'Kayamanan',
-                  number: 2,
-                  imagePath:
-                      'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img2.jpg',
-                  genreText: 'Genre: Academic',
-                  userText: 'Posted by: Russ Allen Garde',
-                  locationText: 'Bacolod City',
-                  price: '300.00',
-                  rentPrice: '50.00/week in 2 months',
-                  quantity: '1',
-                  process: 'To Buy',
-                  isSelected: _isSelected[1],
-                  onChanged: (value) {
-                    setState(() {
-                      _isSelected[1] = value!;
-                      _isAllSelected = _isSelected.every((element) => element);
-                    });
-                  },
-                ),
-                const Divider(),
-              ],
-            ),
-          ),
-          Container(
-            color: Color.fromARGB(255, 57, 55, 66),
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isAllSelected = !_isAllSelected;
-                      _isSelected = List.filled(_isSelected.length, _isAllSelected);
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Checkbox(
-  value: _isAllSelected,
-  onChanged: (_) {
-    setState(() {
-      _isAllSelected = !_isAllSelected;
-      _isSelected = List.filled(_isSelected.length, _isAllSelected);
-    });
-  },
-  checkColor: Color(0xFF393742), // Change the color of the checkmark
-  activeColor: Color(0xFFFFD3AF), // Change the color of the checkbox when selected
-  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // Removes extra padding
-  side: BorderSide(color: _isAllSelected ? Colors.white : Colors.grey), // Specify the border color
-),
-
-                      Text(
-                        'All',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  'Total: ₱${_calculateTotalCost()}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
-                  width: 120, // Adjust the width as needed
-                  child: ElevatedButton(
-                    onPressed: _checkout, // Call _checkout function here
-                    child: Text('Check Out',
-                    style: TextStyle(color: Color.fromARGB(255, 57, 55, 66)),),
-                  ),
-                ),
-              ],
+            child: FutureBuilder<List<CartBookItem>>(
+              future: _bookItems,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      var book = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
+                                  child: Image.network(
+                                    book.book_image,
+                                    height: 250,
+                                    width: 140,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        book.book_title,
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 57, 55, 66),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 24,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'Genre: ' + book.book_genre,
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Text(
+                                          'By: ' + book.book_user,
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 57, 55, 66),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.location_on,
+                                              size: 20,
+                                              color: Color.fromARGB(255, 57, 55, 66)
+                                            ),
+                                            Text(
+                                              book.book_location,
+                                              style: TextStyle(
+                                              color: Color.fromARGB(255, 57, 55, 66),
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          ]
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: 90,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.shopping_cart,
+                                                          size: 17,
+                                                          color: Color.fromARGB(255, 57, 55, 66)
+                                                        ),
+                                                        Text(
+                                                          'Buy Price',
+                                                          style: TextStyle(
+                                                            color: Color.fromARGB(255, 57, 55, 66),
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                      '₱' + book.book_buyprice,
+                                                      style: TextStyle(
+                                                        color: Color.fromARGB(255, 57, 55, 66),
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ]
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(10, 23, 0, 0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.receipt,
+                                                      size: 17,
+                                                      color: Color.fromARGB(255, 57, 55, 66)
+                                                    ),
+                                                    Text(
+                                                      'Rental Price',
+                                                      style: TextStyle(
+                                                        color: Color.fromARGB(255, 57, 55, 66),
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: 105,
+                                                  child: Text(
+                                                    '₱' + book.book_rentprice + ' / ' + book.book_rentdue,
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(255, 57, 55, 66),
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 20)
+                                    ],
+                                  )
+                                )
+                              ]
+                            ),
+                          )
+                        )
+                      );
+                    },
+                  );
+                }
+              },
             ),
           ),
         ],
       ),
     );
   }
-
-  void _showDeleteConfirmationDialog(BuildContext context) {
-    bool anyItemSelected = _isSelected.any((element) => element);
-    if (!anyItemSelected) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("No item selected"),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Divider(),
-                Text(
-                  "Please select at least one item to remove.",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color.fromARGB(255, 57, 55, 66),
-                  ),
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "OK",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 57, 55, 66),
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Confirm Delete"),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Divider(),
-                Text(
-                  "Are you sure you want to delete the selected item/s from your cart?",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color.fromARGB(255, 57, 55, 66),
-                  ),
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Cancel",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 57, 55, 66),
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Perform delete operation here
-                  // For now, let's just clear the selection
+void _showSortingOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 150,
+          color: Colors.white,
+          child: Column(
+            children: [
+              ListTile(
+                title: const Text('Sort by Title'),
+                onTap: () {
+                  Navigator.pop(context);
                   setState(() {
-                    _isSelected = List<bool>.filled(_isSelected.length, false);
-                    _isAllSelected = false;
+                    _bookItems = _fetchBookItemsSortedByTitle();
                   });
-                  Navigator.of(context).pop();
                 },
-                child: Text(
-                  "Delete",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 57, 55, 66),
-                  ),
-                ),
+              ),
+              ListTile(
+                title: const Text('Sort by Genre'),
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    _bookItems = _fetchBookItemsSortedByGenre();
+                  });
+                },
               ),
             ],
-          );
-        },
-      );
-    }
-  }
-
-  void _checkout() {
-    bool atLeastOneSelected = _isSelected.any((element) => element);
-    if (atLeastOneSelected) {
-      _selectedItems.clear();
-      for (int i = 0; i < _isSelected.length; i++) {
-        if (_isSelected[i]) {
-          _selectedItems.add(_buildBookItem(i));
-        }
-      }
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CheckoutPage(selectedItems: _selectedItems),
-        ),
-      );
-    } else {
-      // Show dialog box
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("No item selected"),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Divider(),
-                Text(
-                  "Please select at least one item to checkout.",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color.fromARGB(255, 57, 55, 66),
-                  ),
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "OK",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 57, 55, 66),
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  BookItem _buildBookItem(int index) {
-    switch (index) {
-      case 0:
-        return BookItem(
-          title: 'Pinagyamang Pluma 9',
-          number: 1,
-          imagePath:
-              'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img1.png',
-          genreText: 'Genre: Academic',
-          userText: 'Posted by: Romeo Seva III',
-          locationText: 'Silay City',
-          price: '350.00',
-          rentPrice: 'Rental Price: ₱50.00/week in 2 months',
-          quantity: '1',
-          process: 'To Buy',
-          isSelected: true,
-          onChanged: (_) {},
+          ),
         );
-      case 1:
-        return BookItem(
-          title: 'Kayamanan',
-          number: 2,
-          imagePath:
-              'https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/img2.jpg',
-          genreText: 'Genre: Academic',
-          userText: 'Posted by: Russ Allen Garde',
-          locationText: 'Bacolod City',
-          price: '300.00',
-          rentPrice: 'Rental Price: ₱50.00/week in 2 months',
-          quantity: '1',
-          process: 'To Buy',
-          isSelected: true,
-          onChanged: (_) {},
-        );
-      default:
-        throw Exception("Invalid index: $index");
-    }
-  }
-
-  String _calculateTotalCost() {
-    double totalCost = 0;
-    for (int i = 0; i < _isSelected.length; i++) {
-      if (_isSelected[i]) {
-        // Add the price of the selected book to the total cost
-        if (i == 0) {
-          totalCost += 350;
-        } else if (i == 1) {
-          totalCost += 300;
-        }
-      }
-    }
-    return totalCost.toStringAsFixed(2);
-  }
-}
-
-class BookItem extends StatelessWidget {
-  final String title;
-  final int number;
-  final String imagePath;
-  final String genreText;
-  final String userText;
-  final String locationText;
-  final String price;
-  final String rentPrice;
-  final bool isSelected;
-  final ValueChanged<bool?> onChanged;
-  final String quantity;
-  final String process;
-
-  const BookItem({
-    required this.title,
-    required this.number,
-    required this.imagePath,
-    required this.genreText,
-    required this.userText,
-    required this.locationText,
-    required this.price,
-    required this.rentPrice,
-    required this.isSelected,
-    required this.onChanged,
-    required this.quantity,
-    required this.process,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: GestureDetector(
-        onTap: () {
-          // Navigate to the book details page and pass the book details
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => BookDetailsPage(
-          //     title: title,
-          //     genreText: genreText,
-          //     userText: userText,
-          //     locationText: locationText,
-          //     price: price,
-          //     rentPrice: rentPrice,
-          //     imagePath: imagePath, // Pass the image path
-          //   )),
-          // );
-        },
-        child: Column(
-          children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 0,
-                    child: Checkbox(
-                      value: isSelected,
-                      onChanged: onChanged,
-                      activeColor: Color(0xFF393742), // Change the color of the checkmark
-                      checkColor: Color(0xFFFFD3AF),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Image.network(
-                      imagePath,
-                      height: 250,
-                      width: 140,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 57, 55, 66),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0),
-                            child: Text(
-                              'Price: ₱' + price,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 57, 55, 66),
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Quantity: ' + quantity.toString(),
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 57, 55, 66),
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 25),
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.shopping_cart,
-                                              size: 17,
-                                              color: Color.fromARGB(255, 57, 55, 66)
-                                            ),
-                                            Text(
-                                              'Process',
-                                              style: TextStyle(
-                                                color: Color.fromARGB(255, 57, 55, 66),
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          process,
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 57, 55, 66),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ]
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.attach_money,
-                                          size: 17,
-                                          color: Color.fromARGB(255, 57, 55, 66)
-                                        ),
-                                        Text(
-                                          'Total Price',
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 57, 55, 66),
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 105,
-                                      child: Text(
-                                        '₱' + price,
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 57, 55, 66),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      },
     );
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: CartingPage(),
-  ));
+  Future<List<CartBookItem>> _fetchBookItemsSortedByTitle() async {
+    final response = await http
+        .get(Uri.parse('https://devlab.helioho.st/serve/readbooks.php?sort=title'));
+    if (response.statusCode == 200) {
+      Iterable data = json.decode(response.body);
+      return List<CartBookItem>.from(data.map((model) => CartBookItem(
+            book_id: model['book_id'],
+            book_title: model['book_title'],
+            book_genre: model['book_genre'],
+            book_user: model['book_user'],
+            book_location: model['book_location'],
+            book_buyprice: model['book_buyprice'],
+            book_rentprice: model['book_rentprice'],
+            book_image: model['book_image'],
+            book_rentdue: model['book_rentdue'],
+            book_rentduration: model['book_rentduration'],
+            book_description: model['book_description'],
+            book_user_image: model['book_user_image'],
+            book_condition: model['book_condition'],
+          )));
+    } else {
+      throw Exception('Failed to load book items');
+    }
+  }
+
+  Future<List<CartBookItem>> _fetchBookItemsSortedByGenre() async {
+    final response = await http
+        .get(Uri.parse('https://devlab.helioho.st/serve/readbooks.php?sort=genre'));
+    if (response.statusCode == 200) {
+      Iterable data = json.decode(response.body);
+      return List<CartBookItem>.from(data.map((model) => CartBookItem(
+            book_id: model['book_id'],
+            book_title: model['book_title'],
+            book_genre: model['book_genre'],
+            book_user: model['book_user'],
+            book_location: model['book_location'],
+            book_buyprice: model['book_buyprice'],
+            book_rentprice: model['book_rentprice'],
+            book_image: model['book_image'],
+            book_rentdue: model['book_rentdue'],
+            book_rentduration: model['book_rentduration'],
+            book_description: model['book_description'],
+            book_user_image: model['book_user_image'],
+            book_condition: model['book_condition'],
+          )));
+    } else {
+      throw Exception('Failed to load book items');
+    }
+  }
 }

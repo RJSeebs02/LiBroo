@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'carting.dart';
 
 class CheckoutPage extends StatefulWidget {
-  final List<BookItem> selectedItems;
+  final List<CartBookItem> selectedItems;
 
   CheckoutPage({required this.selectedItems});
 
@@ -17,7 +17,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     // Calculate total price
     double totalPrice = widget.selectedItems.fold(
-        0, (previousValue, item) => previousValue + double.parse(item.price));
+        0, (previousValue, item) => previousValue + double.parse(item.book_buyprice));
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +61,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: ListView.builder(
                   itemCount: widget.selectedItems.length,
                   itemBuilder: (context, index) {
-                    BookItem item = widget.selectedItems[index];
+                    CartBookItem item = widget.selectedItems[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Container(
@@ -76,7 +76,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             Expanded(
                               flex: 1,
                               child: Image.network(
-                                item.imagePath,
+                                item.book_image,
                                 height: 250,
                                 width: 250,
                                 fit: BoxFit.contain,
@@ -90,7 +90,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item.title,
+                                      item.book_title,
                                       style: TextStyle(
                                         color: Color.fromARGB(255, 57, 55, 66),
                                         fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
-                                        item.genreText,
+                                        item.book_genre,
                                         style: TextStyle(
                                           color: Color.fromARGB(255, 57, 55, 66),
                                           fontSize: 16,
@@ -112,7 +112,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
-                                        item.userText,
+                                        item.book_user,
                                         style: TextStyle(
                                           color: Color.fromARGB(255, 57, 55, 66),
                                           fontSize: 16,
@@ -121,7 +121,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     ),
                                     SizedBox(height: 8),
                                     Text(
-                                      item.locationText,
+                                      item.book_location,
                                       style: TextStyle(
                                         color: Color.fromARGB(255, 57, 55, 66),
                                         fontSize: 16,
@@ -133,7 +133,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 8.0, bottom: 10.0, right: 16.0),
                                         child: Text(
-                                          '₱' + item.price,
+                                          '₱' + item.book_buyprice,
                                           style: TextStyle(
                                             color: Color.fromARGB(255, 57, 55, 66),
                                             fontSize: 20,

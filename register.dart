@@ -34,7 +34,8 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     // Your API endpoint for registration
-    const String apiUrl = 'https://zenenix.helioho.st/serve/create.php';
+    const String apiUrl = 'https://zenenix.helioho.st/serve/user/create.php';
+    const String apiUrlCart = 'https://zenenix.helioho.st/serve/carting/cartcreate.php';
 
     try {
       final response = await http.post(
@@ -45,6 +46,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
       if (response.statusCode == 201) {
         // Successful registration
+          try {
+            final response = await http.post(
+            Uri.parse(apiUrlCart),
+            body: jsonEncode({'user_username': user_username}),
+            headers: {'Content-Type': 'application/json'},
+          );
+          } catch (e) {
+            // Handle network errors
+            setState(() {
+              errorMessage = 'Error huhu: $e';
+            });
+          }
         final responseData = jsonDecode(response.body);
         final bool success = responseData['message'] == "User was created.";
 
