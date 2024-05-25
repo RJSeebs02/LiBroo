@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert'; // For jsonEncode
 import 'payment.dart';
 import 'rental.dart';
+import 'chat_details.dart';
 import 'package:http/http.dart' as http; // For making HTTP requests
 
 class BookDetailsPage extends StatefulWidget {
@@ -32,6 +33,35 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       return Book.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load book details');
+    }
+  }
+
+  int _selectedIndex = 0; // Current selected index for bottom navigation bar
+  void _onItemTapped(int index, BuildContext context) {
+    // Handle bottom navigation bar item tap
+    _selectedIndex = index;
+    if (_selectedIndex == 0) {
+      
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatDetailsPage(
+                      user: {
+                        'name': '',
+                        'image': '',
+                        'status': 'Online',
+                      },
+                    ),
+                  ),
+                ); // Navigate to RentalPage with book details
+    } else if (_selectedIndex == 1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor:Color.fromARGB(255, 57, 55, 66),
+        content: Center(child: Text('Added to cart')),
+        duration: Duration(seconds: 2),
+      ),
+    );
     }
   }
 
@@ -449,6 +479,21 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
           },
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        color: Color.fromARGB(255, 57, 55, 66),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat, color: Colors.white), // Change icon color to white
+            label: 'Chat',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_shopping_cart, color: Color.fromRGBO(255, 211, 175, 1)), // Change icon color to white
+            label: 'Add to Cart',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: (index) => _onItemTapped(index, context),
+      ),
     );
   }
 }
@@ -489,6 +534,54 @@ class Book {
       description: json['book_description'],
       user_image: json['book_user_image'],
       condition: json['book_condition'],
+    );
+  }
+}
+
+class CustomBottomNavigationBar extends StatelessWidget {
+  final List<BottomNavigationBarItem> items;
+  final int currentIndex;
+  final ValueChanged<int>? onTap;
+  final Color color;
+  const CustomBottomNavigationBar({
+    Key? key,
+    required this.items,
+    required this.currentIndex,
+    this.onTap,
+    required this.color,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      color: Color.fromARGB(255, 57, 55, 66), // Change bottom bar color to black
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: items.map((item) {
+          final index = items.indexOf(item);
+          return GestureDetector(
+            onTap: () => onTap!(index),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  item.icon!,
+                  if (item.label != null)
+                    Expanded(
+                      child: Text(
+                        item.label!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white, // Change text color to white
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
