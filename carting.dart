@@ -1,25 +1,31 @@
+import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'checkout.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'book_details.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class CartBookItem {
-  final String book_id;
+
+class BookItem {
+  final int book_id;
   final String book_title;
   final String book_genre;
   final String book_user;
   final String book_location;
-  final String book_buyprice;
-  final String book_rentprice;
+  final int book_buyprice;
+  final int book_rentprice;
   final String book_image;
   final String book_rentdue;
   final String book_rentduration;
   final String book_description;
   final String book_user_image;
   final String book_condition;
+  int product_quantity;
+  bool isChecked;
 
-  CartBookItem({
+  BookItem({
     required this.book_id,
     required this.book_title,
     required this.book_genre,
@@ -33,23 +39,29 @@ class CartBookItem {
     required this.book_description,
     required this.book_user_image,
     required this.book_condition,
+    required this.product_quantity,
+    this.isChecked = false,
   });
 }
 
 class CartingPage extends StatelessWidget {
-  const CartingPage({Key? key}) : super(key: key);
+  final String username;
+
+  const CartingPage({Key? key, required this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Libroo',
-      home: ImageAndJsonLoadingDemo(),
+      home: ImageAndJsonLoadingDemo(username: username),
     );
   }
 }
 
 class ImageAndJsonLoadingDemo extends StatefulWidget {
-  const ImageAndJsonLoadingDemo({Key? key}) : super(key: key);
+  final String username;
+  
+  const ImageAndJsonLoadingDemo({Key? key, required this.username}) : super(key: key);
 
   @override
   _ImageAndJsonLoadingDemoState createState() =>
@@ -57,33 +69,44 @@ class ImageAndJsonLoadingDemo extends StatefulWidget {
 }
 
 class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
-  late Future<List<CartBookItem>> _bookItems;
+  String? userUsername;
+
+  late Future<List<BookItem>> _bookItems;
 
   @override
   void initState() {
     super.initState();
     _bookItems = _fetchBookItems();
+    _loadUsername();
   }
 
-  Future<List<CartBookItem>> _fetchBookItems() async {
+  Future<void> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userUsername = prefs.getString('user_username');
+    });
+  }
+
+  Future<List<BookItem>> _fetchBookItems() async {
     final response = await http
-        .get(Uri.parse('https://zenenix.helioho.st/serve/carting_item/carting_itemread.php'));
+        .get(Uri.parse('https://zenenix.helioho.st/serve/carting_item/carting_itemread.php?user_username=${widget.username}'));
     if (response.statusCode == 200) {
       Iterable data = json.decode(response.body);
-      return List<CartBookItem>.from(data.map((model) => CartBookItem(
-            book_id: model['book_id'],
+      return List<BookItem>.from(data.map((model) => BookItem(
+            book_id: int.parse(model['book_id']),
             book_title: model['book_title'],
             book_genre: model['book_genre'],
             book_user: model['book_user'],
             book_location: model['book_location'],
-            book_buyprice: model['book_buyprice'],
-            book_rentprice: model['book_rentprice'],
+            book_buyprice: int.parse(model['book_buyprice']),
+            book_rentprice: int.parse(model['book_rentprice']),
             book_image: model['book_image'],
             book_rentdue: model['book_rentdue'],
             book_rentduration: model['book_rentduration'],
             book_description: model['book_description'],
             book_user_image: model['book_user_image'],
             book_condition: model['book_condition'],
+            product_quantity: int.parse(model['product_quantity']),
           )));
     } else {
       throw Exception('Failed to load book items');
@@ -137,7 +160,7 @@ class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
           ),
           Divider(),
           Expanded(
-            child: FutureBuilder<List<CartBookItem>>(
+            child: FutureBuilder<List<BookItem>>(
               future: _bookItems,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -146,180 +169,234 @@ class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      var book = snapshot.data![index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                            child: Row(
+  itemCount: snapshot.data!.length,
+  itemBuilder: (context, index) {
+    var book = snapshot.data![index];
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Checkbox( // Add Checkbox widget here
+              value: book.isChecked,
+              onChanged: (value) {
+                setState(() {
+                  book.isChecked = value!;
+                });
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
+              child: Image.network(
+                book.book_image,
+                height: 100,
+                width: 90,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    book.book_title,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 57, 55, 66),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(height: 1),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 90,
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 12.0, 10, 12.0),
-                                  child: Image.network(
-                                    book.book_image,
-                                    height: 250,
-                                    width: 140,
-                                    fit: BoxFit.cover,
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.shopping_cart,
+                                      size: 17,
+                                      color: Color.fromARGB(255, 57, 55, 66)
+                                    ),
+                                    Text(
+                                      'Buy Price',
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 55, 66),
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  '₱${book.book_buyprice}',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 57, 55, 66),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        book.book_title,
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 57, 55, 66),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 24,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          'Genre: ' + book.book_genre,
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 57, 55, 66),
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 0),
-                                        child: Text(
-                                          'By: ' + book.book_user,
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 57, 55, 66),
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on,
-                                              size: 20,
-                                              color: Color.fromARGB(255, 57, 55, 66)
-                                            ),
-                                            Text(
-                                              book.book_location,
-                                              style: TextStyle(
-                                              color: Color.fromARGB(255, 57, 55, 66),
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                          ]
-                                        ),
-                                      ),
-                                      SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: 90,
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.shopping_cart,
-                                                          size: 17,
-                                                          color: Color.fromARGB(255, 57, 55, 66)
-                                                        ),
-                                                        Text(
-                                                          'Buy Price',
-                                                          style: TextStyle(
-                                                            color: Color.fromARGB(255, 57, 55, 66),
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text(
-                                                      '₱' + book.book_buyprice,
-                                                      style: TextStyle(
-                                                        color: Color.fromARGB(255, 57, 55, 66),
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ]
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(10, 23, 0, 0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.receipt,
-                                                      size: 17,
-                                                      color: Color.fromARGB(255, 57, 55, 66)
-                                                    ),
-                                                    Text(
-                                                      'Rental Price',
-                                                      style: TextStyle(
-                                                        color: Color.fromARGB(255, 57, 55, 66),
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 105,
-                                                  child: Text(
-                                                    '₱' + book.book_rentprice + ' / ' + book.book_rentdue,
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(255, 57, 55, 66),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 20)
-                                    ],
-                                  )
-                                )
                               ]
                             ),
-                          )
-                        )
-                      );
-                    },
-                  );
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 23, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.receipt,
+                                  size: 17,
+                                  color: Color.fromARGB(255, 57, 55, 66)
+                                ),
+                                Text(
+                                  'Rental Price',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 57, 55, 66),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 105,
+                              child: Text(
+                                '₱ ${book.book_rentprice} / ' + book.book_rentdue,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 57, 55, 66),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ]
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        child: Row(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+    GestureDetector(
+      onTap: () {
+        setState(() {
+          // Handle decrement logic
+          if (book.product_quantity > 0) {
+            book.product_quantity--;
+          }
+        });
+      },
+      child: Container(
+        color: Color.fromARGB(255, 57, 55, 66),
+        width: 20,
+        height: 20,
+        child: Icon(
+          Icons.remove,
+          color: Colors.white,
+          size: 20,
+        ),
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Text(
+        "${book.product_quantity}",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    ),
+    GestureDetector(
+      onTap: () {
+        setState(() {
+          // Handle increment logic
+          book.product_quantity++;
+        });
+      },
+      child: Container(
+        color: Color.fromARGB(255, 57, 55, 66),
+        width: 20,
+        height: 20,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 20,
+        ),
+      ),
+    ),
+  ],
+),
+
+                      ),
+                    ]
+                  ),
+                ],
+              )
+            ),
+          ]
+        ),
+      )
+    );
+  },
+);
+
                 }
               },
             ),
           ),
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          'Total Price: ',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          onPressed: () {
+            // Implement checkout logic here
+          },
+          child: Text('Checkout'),
+        ),
+      ),
+    ],
+  ),
+),
     );
   }
-void _showSortingOptions(BuildContext context) {
+
+  void _showSortingOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -353,12 +430,12 @@ void _showSortingOptions(BuildContext context) {
     );
   }
 
-  Future<List<CartBookItem>> _fetchBookItemsSortedByTitle() async {
+  Future<List<BookItem>> _fetchBookItemsSortedByTitle() async {
     final response = await http
         .get(Uri.parse('https://devlab.helioho.st/serve/readbooks.php?sort=title'));
     if (response.statusCode == 200) {
       Iterable data = json.decode(response.body);
-      return List<CartBookItem>.from(data.map((model) => CartBookItem(
+      return List<BookItem>.from(data.map((model) => BookItem(
             book_id: model['book_id'],
             book_title: model['book_title'],
             book_genre: model['book_genre'],
@@ -372,18 +449,19 @@ void _showSortingOptions(BuildContext context) {
             book_description: model['book_description'],
             book_user_image: model['book_user_image'],
             book_condition: model['book_condition'],
+            product_quantity: model['product_quantity'],
           )));
     } else {
       throw Exception('Failed to load book items');
     }
   }
 
-  Future<List<CartBookItem>> _fetchBookItemsSortedByGenre() async {
+  Future<List<BookItem>> _fetchBookItemsSortedByGenre() async {
     final response = await http
         .get(Uri.parse('https://devlab.helioho.st/serve/readbooks.php?sort=genre'));
     if (response.statusCode == 200) {
       Iterable data = json.decode(response.body);
-      return List<CartBookItem>.from(data.map((model) => CartBookItem(
+      return List<BookItem>.from(data.map((model) => BookItem(
             book_id: model['book_id'],
             book_title: model['book_title'],
             book_genre: model['book_genre'],
@@ -397,6 +475,7 @@ void _showSortingOptions(BuildContext context) {
             book_description: model['book_description'],
             book_user_image: model['book_user_image'],
             book_condition: model['book_condition'],
+            product_quantity: model['product_quantity'],
           )));
     } else {
       throw Exception('Failed to load book items');

@@ -69,8 +69,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _navigateToHome(String username) {
-    Navigator.pushReplacementNamed(context, '/home', arguments: username);
-  }
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => MyHomePage(username: username),
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +217,9 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  final String username;
+
+  const MyHomePage({Key? key, required this.username}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -255,7 +262,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           HomePage(),
           ChatPage(),
-          CartingPage(),
+          CartingPage(username: widget.username),
           NotificationPage(),
           ProfilePage(),
         ],
@@ -300,14 +307,21 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool? validation = prefs.getBool('validation');
+  String? username = prefs.getString('user_username');
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false, // Set debugShowCheckedModeBanner to false
     title: 'Login App',
     initialRoute: validation == null || !validation ? '/' : '/home',
-    routes: {
-      '/': (context) => const LoginPage(),
-      '/home': (context) => const MyHomePage(),
+    onGenerateRoute: (settings) {
+      if (settings.name == '/') {
+        return MaterialPageRoute(builder: (context) => const LoginPage());
+      } else if (settings.name == '/home') {
+        return MaterialPageRoute(
+          builder: (context) => MyHomePage(username: username ?? ''),
+        );
+      }
+      return null;
     },
   ));
 }

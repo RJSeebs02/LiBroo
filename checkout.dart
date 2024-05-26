@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'carting.dart';
 
 class CheckoutPage extends StatefulWidget {
-  final List<CartBookItem> selectedItems;
+  final List<BookItem> selectedItems;
 
   CheckoutPage({required this.selectedItems});
 
@@ -17,7 +17,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     // Calculate total price
     double totalPrice = widget.selectedItems.fold(
-        0, (previousValue, item) => previousValue + double.parse(item.book_buyprice));
+        0, (previousValue, item) => previousValue);
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +61,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: ListView.builder(
                   itemCount: widget.selectedItems.length,
                   itemBuilder: (context, index) {
-                    CartBookItem item = widget.selectedItems[index];
+                    BookItem item = widget.selectedItems[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Container(
@@ -133,7 +133,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 8.0, bottom: 10.0, right: 16.0),
                                         child: Text(
-                                          '₱' + item.book_buyprice,
+                                          '₱',
                                           style: TextStyle(
                                             color: Color.fromARGB(255, 57, 55, 66),
                                             fontSize: 20,
