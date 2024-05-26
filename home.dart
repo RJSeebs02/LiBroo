@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'book_details.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 
 class BookItem {
   final int book_id;
@@ -51,6 +53,7 @@ class HomePage extends StatelessWidget {
 }
 
 class ImageAndJsonLoadingDemo extends StatefulWidget {
+  
   const ImageAndJsonLoadingDemo({Key? key}) : super(key: key);
 
   @override
@@ -59,12 +62,22 @@ class ImageAndJsonLoadingDemo extends StatefulWidget {
 }
 
 class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
+  String? userUsername;
+
   late Future<List<BookItem>> _bookItems;
 
   @override
   void initState() {
     super.initState();
     _bookItems = _fetchBookItems();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userUsername = prefs.getString('user_username');
+    });
   }
 
   Future<List<BookItem>> _fetchBookItems() async {
@@ -158,7 +171,7 @@ class _ImageAndJsonLoadingDemoState extends State<ImageAndJsonLoadingDemo> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => BookDetailsPage(bookId: book.book_id),
+                                builder: (context) => BookDetailsPage(bookId: book.book_id,username: userUsername!),
                               )
                             );
                           },

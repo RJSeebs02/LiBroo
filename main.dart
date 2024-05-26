@@ -48,12 +48,12 @@ class _LoginPageState extends State<LoginPage> {
         await prefs.setString('user_username', user_username);
 
         if (validation) {
-          _navigateToHome();
+          _navigateToHome(user_username);
         } else {
           setState(() {
             errorMessage = 'Cannot verify user.';
           });
-        }
+      }
       } else {
         // Handle error
         setState(() {
@@ -68,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _navigateToHome() {
-    Navigator.pushReplacementNamed(context, '/home');
+  void _navigateToHome(String username) {
+    Navigator.pushReplacementNamed(context, '/home', arguments: username);
   }
 
   @override

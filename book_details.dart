@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert'; // For jsonEncode
 import 'payment.dart';
 import 'rental.dart';
@@ -7,14 +8,17 @@ import 'package:http/http.dart' as http; // For making HTTP requests
 
 class BookDetailsPage extends StatefulWidget {
   final int bookId;
+  final String username;
 
-  BookDetailsPage({required this.bookId});
+  BookDetailsPage({required this.bookId, required this.username});
 
   @override
   _BookDetailsPageState createState() => _BookDetailsPageState();
 }
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
+  String? userUsername;
+
   late Future<Book> futureBook;
   int quantity = 1; // Define and initialize the quantity variable
 
@@ -22,6 +26,14 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   void initState() {
     super.initState();
     futureBook = fetchBookDetails(widget.bookId);
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userUsername = prefs.getString('user_username');
+    });
   }
 
   Future<Book> fetchBookDetails(int bookId) async {
@@ -33,6 +45,18 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       return Book.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load book details');
+    }
+  }
+
+  Future<Book> addToCart(int bookId, String username, int quantity) async {
+    final response = await http.get(
+      Uri.parse('http://zenenix.helioho.st/serve/carting_item/carting_itemcreate.php?book_id=$bookId&user_username=$username&product_quantity=$quantity'),
+    );
+
+    if (response.statusCode == 200) {
+      return Book.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to add to cart');
     }
   }
 
@@ -55,6 +79,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   ),
                 ); // Navigate to RentalPage with book details
     } else if (_selectedIndex == 1) {
+      addToCart(widget.bookId, userUsername!, quantity);
       ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor:Color.fromARGB(255, 57, 55, 66),

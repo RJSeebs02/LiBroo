@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'my_store.dart';
 import 'edit_profile.dart';
 import 'settings.dart';
 import 'premium_subscription.dart'; // Import the premium subscription offer page
 import 'about_us.dart';
-import 'login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String? userUsername;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userUsername = prefs.getString('user_username');
+    });
+  }
 
   Future<void> _logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('validation');
-    // ignore: use_build_context_synchronously
+    await prefs.remove('user_username');
     Navigator.pushReplacementNamed(context, '/');
   }
 
@@ -23,8 +41,8 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF393742),
-        title: Text(
+        backgroundColor: const Color(0xFF393742),
+        title: const Text(
           'Profile',
           style: TextStyle(color: Colors.white),
         ),
@@ -41,28 +59,22 @@ class ProfilePage extends StatelessWidget {
                     width: 120,
                     height: 120,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100), 
+                      borderRadius: BorderRadius.circular(100),
                       child: const Image(image: NetworkImage('https://raw.githubusercontent.com/RJSeebs02/LibrooImages/main/Lij.jpg')),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PremiumSubscriptionPage()),
-                  );
-                },
-                child: Text('Elijah', style: Theme.of(context).textTheme.headlineLarge),
-              ),
+              userUsername != null
+                  ? Text(userUsername!, style: Theme.of(context).textTheme.headlineLarge)
+                  : const CircularProgressIndicator(),
               const SizedBox(height: 5),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xFF393742), // Choose the color you prefer for the rectangle
+                  color: const Color(0xFF393742), // Choose the color you prefer for the rectangle
                 ),
                 child: InkWell(
                   onTap: () {
@@ -71,7 +83,7 @@ class ProfilePage extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => PremiumSubscriptionPage()),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Premium User',
                     style: TextStyle(
                       fontSize: 16,
@@ -83,18 +95,18 @@ class ProfilePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               SizedBox(
-                width:200,
+                width: 200,
                 child: ElevatedButton(
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => EditProfilePage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, side: BorderSide.none, shape: StadiumBorder()),
+                    backgroundColor: Colors.white, side: BorderSide.none, shape: const StadiumBorder()),
                   child: const Text('Edit Profile', style: TextStyle(color: Colors.black)),
-                )
+                ),
               ),
               const SizedBox(height: 30),
               ProfileMenuWidget(
@@ -123,7 +135,7 @@ class ProfilePage extends StatelessWidget {
               ProfileMenuWidget(
                 title: "About Us",
                 icon: Icons.question_answer,
-                onPress: (){
+                onPress: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AboutUsPage()), // Navigate to the AboutUsPage
@@ -173,9 +185,9 @@ class ProfileMenuWidget extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: Colors.black.withOpacity(0.1)
+          color: Colors.black.withOpacity(0.1),
         ),
-        child: Icon(icon, color:Colors.black)
+        child: Icon(icon, color: Colors.black),
       ),
       title: Text(
         title,
@@ -183,14 +195,17 @@ class ProfileMenuWidget extends StatelessWidget {
           color: textColor ?? Colors.black, // Use textColor if not null, else use default color
         ),
       ),
-      trailing: endIcon? Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Colors.black.withOpacity(0.1),
-        ),
-        child: const Icon(Icons.arrow_right, size: 18.0, color: Colors.grey)) : null,
+      trailing: endIcon
+          ? Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.black.withOpacity(0.1),
+              ),
+              child: const Icon(Icons.arrow_right, size: 18.0, color: Colors.grey),
+            )
+          : null,
     );
   }
 }
